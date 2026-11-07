@@ -1,0 +1,22 @@
+.stats-card{
+width:250px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.stats-card:hover{
+transform:translateY(-5px);
+}
+
+.stats-card h3{
+color:#666;
+margin-bottom:10px;
+}
+
+.stats-card h1{
+font-size:35px;
+color:#222;
+}
