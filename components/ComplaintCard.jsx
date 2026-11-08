@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import StatusBadge from "./StatusBadge";
 import "./ComplaintCard.css";
 
 export default function ComplaintCard({ complaint }) {
@@ -8,6 +9,7 @@ export default function ComplaintCard({ complaint }) {
         <img
           src={complaint.image}
           alt={`${complaint.wasteType} reported at ${complaint.address}`}
+          loading="lazy"
         />
       ) : (
         <div className="complaint-no-image">No photo</div>
@@ -19,7 +21,10 @@ export default function ComplaintCard({ complaint }) {
         <p>
           ⏳ {complaint.days} {complaint.days === 1 ? "Day" : "Days"} Pending
         </p>
-        <span className={`status ${complaint.status.toLowerCase()}`}>{complaint.status}</span>
+        <p className="complaint-meta">
+          {complaint.ward} · 👍 {complaint.upvotes} · 💬 {complaint.commentCount}
+        </p>
+        <StatusBadge status={complaint.status} />
         <Link className="complaint-link" to={`/complaint/${complaint.id}`}>
           <button type="button">View Details</button>
         </Link>

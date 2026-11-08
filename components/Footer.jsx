@@ -1,2 +1,2 @@
 import { Link } from 'react-router-dom';
-export default function Footer() { return <footer className="site-footer"><div className="footer-inner"><Link className="footer-brand" to="/">NAGARIK <span>BHOPAL</span></Link><p>A clearer way to care for the city we call home.</p><div className="footer-meta"><span>© 2026 Nagarik Bhopal</span><span>Built for a cleaner, safer city.</span></div></div></footer>; }
+export default function Footer() { return <footer className="site-footer"><div className="footer-inner"><Link className="footer-brand" to="/home">NAGARIK <span>BHOPAL</span></Link><p>A clearer way to care for the city we call home.</p><div className="footer-meta"><span>© 2026 Nagarik Bhopal</span><span>Built for a cleaner, safer city.</span></div></div></footer>; }

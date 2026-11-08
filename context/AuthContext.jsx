@@ -1,71 +1,127 @@
-import { createContext, useContext, useState } from "react";
-import { clearStorage, getUser, getToken } from "../utils/storage";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { ROLES } from "../shared/constants";
+import { messageFor } from "../shared/errors";
+import { decodeJwt } from "../shared/jwt";
+import { call } from "../utils/api";
+import { clearSession, getUser, getToken, setSession } from "../utils/storage";
 
 const AuthContext = createContext(null);
-const USERS_KEY = "nagarik-users";
 
-const readUsers = () => {
-  try {
-    const users = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
-    return Array.isArray(users) ? users : [];
-  } catch {
-    return [];
+const isExpired = (token) => {
+  const claims = decodeJwt(token);
+  return !claims?.exp || claims.exp * 1000 <= Date.now();
+};
+
+const restoreSession = () => {
+  const token = getToken();
+  const user = getUser();
+
+  if (!token || !user || isExpired(token)) {
+    clearSession();
+    return { token: null, user: null };
   }
+
+  return { token, user };
 };
 
 export function AuthProvider({ children }) {
-  // Restore the session on reload, otherwise the header forgets the user.
-  const [user, setUser] = useState(() => getUser());
+  const [session, setSessionState] = useState(restoreSession);
 
-  const register = ({ name, email, password }) => {
-    const users = readUsers();
-    const normalizedEmail = String(email).trim().toLowerCase();
+  // Confirm the restored token with the service (catches expired, deleted or
+  // blocked accounts) instead of trusting the copy in localStorage.
+  useEffect(() => {
+    if (!session.token) return undefined;
 
-    if (users.some((person) => String(person.email).toLowerCase() === normalizedEmail)) {
-      return { ok: false, message: "An account with this email already exists on this device." };
-    }
+    let cancelled = false;
 
-    users.push({ name: String(name).trim(), email: normalizedEmail, password });
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    call("me", { token: session.token })
+      .then(({ user }) => {
+        if (cancelled) return;
+        setSession({ token: session.token, user });
+        setSessionState({ token: session.token, user });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        clearSession();
+        setSessionState({ token: null, user: null });
+      });
 
-    return { ok: true, message: "Your demo account is ready on this device. You can sign in now." };
-  };
+    return () => {
+      cancelled = true;
+    };
+    // Only the stored token identifies the session we want to check.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session.token]);
 
-  const login = ({ email, password }) => {
-    const normalizedEmail = String(email).trim().toLowerCase();
-    const match = readUsers().find(
-      (person) => String(person.email).toLowerCase() === normalizedEmail
-    );
+  const startSession = useCallback(({ token, user }) => {
+    setSession({ token, user });
+    setSessionState({ token, user });
+  }, []);
 
-    if (!match) {
-      return {
-        ok: false,
-        message: "We couldn’t find an account for that email on this device. Create an account to continue.",
-      };
-    }
-
-    if (match.password !== password) {
-      return { ok: false, message: "That password doesn’t match this account." };
-    }
-
-    const sessionUser = { name: match.name, email: match.email };
-    localStorage.setItem("user", JSON.stringify(sessionUser));
-    localStorage.setItem("token", `demo-${Date.now()}`);
-    setUser(sessionUser);
-
-    return { ok: true, user: sessionUser };
-  };
-
-  const logout = () => {
-    clearStorage();
-    setUser(null);
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, token: getToken(), login, logout, register }}>
-      {children}
-    </AuthContext.Provider>
+  const signIn = useCallback(
+    async (credentials, { admin = false } = {}) => {
+      try {
+        const result = await call(admin ? "adminLogin" : "login", credentials);
+        startSession(result);
+        return { ok: true, user: result.user };
+      } catch (error) {
+        return { ok: false, message: messageFor(error) };
+      }
+    },
+    [startSession]
   );
+
+  const login = useCallback((credentials) => signIn(credentials), [signIn]);
+  const adminLogin = useCallback((credentials) => signIn(credentials, { admin: true }), [signIn]);
+
+  const register = useCallback(
+    async (payload) => {
+      try {
+        const result = await call("register", payload);
+        startSession(result);
+        return { ok: true, user: result.user };
+      } catch (error) {
+        return { ok: false, message: messageFor(error) };
+      }
+    },
+    [startSession]
+  );
+
+  const logout = useCallback(() => {
+    clearSession();
+    setSessionState({ token: null, user: null });
+  }, []);
+
+  const updateProfile = useCallback(
+    async (payload) => {
+      try {
+        const result = await call("updateProfile", payload);
+        setSession({ token: session.token, user: result.user });
+        setSessionState({ token: session.token, user: result.user });
+        return { ok: true, message: result.message };
+      } catch (error) {
+        return { ok: false, message: messageFor(error) };
+      }
+    },
+    [session.token]
+  );
+
+  const value = useMemo(
+    () => ({
+      user: session.user,
+      token: session.token,
+      isAuthenticated: Boolean(session.user),
+      isAdmin: session.user?.role === ROLES.ADMIN,
+      login,
+      adminLogin,
+      register,
+      logout,
+      updateProfile,
+    }),
+    [session, login, adminLogin, register, logout, updateProfile]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

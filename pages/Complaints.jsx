@@ -1,18 +1,148 @@
+import { useCallback, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import ComplaintCard from "../components/ComplaintCard";
-import { getComplaints } from "../utils/storage";
+import { useService } from "../hooks/useService";
+import { STATUS_LIST, WASTE_TYPES } from "../shared/constants";
+import { call } from "../utils/api";
 
-export default function Complaints() {
-  const complaints = getComplaints();
+/**
+ * One list component serves both /complaints and /my-complaints: the `scope`
+ * prop only changes which records the service returns, never the markup.
+ */
+export default function Complaints({ scope = "all" }) {
+  const mine = scope === "mine";
+  const location = useLocation();
+  const [filters, setFilters] = useState({ status: "", wasteType: "", search: "" });
+  const [page, setPage] = useState(1);
+
+  const load = useCallback(
+    () =>
+      call("listComplaints", {
+        scope,
+        page,
+        limit: 9,
+        status: filters.status,
+        wasteType: filters.wasteType,
+        search: filters.search,
+      }),
+    [scope, page, filters]
+  );
+
+  const { data, loading, error } = useService(load);
+
+  // Any filter change should take the reader back to the first page.
+  useEffect(() => {
+    setPage(1);
+  }, [filters.status, filters.wasteType, filters.search, scope]);
+
+  const update = (field, value) => setFilters((current) => ({ ...current, [field]: value }));
+  const items = data?.items || [];
+  const statusCounts = data?.statusCounts || {};
+  const totalCount = Object.values(statusCounts).reduce((total, count) => total + count, 0);
 
   return (
     <div className="container">
-      <h1>All Complaints</h1>
-      <p className="page-intro">{complaints.length} reports available in this browser.</p>
+      <div className="page-head">
+        <div>
+          <h1>{mine ? "My Complaints" : "All Complaints"}</h1>
+          <p className="page-intro">
+            {loading
+              ? "Loading reports…"
+              : mine
+                ? `${totalCount} report${totalCount === 1 ? "" : "s"} you filed from this account.`
+                : `${totalCount} report${totalCount === 1 ? "" : "s"} shared by residents.`}
+          </p>
+        </div>
+        <Link className="button button-dark" to="/report">
+          Report an issue <span aria-hidden="true">↗</span>
+        </Link>
+      </div>
 
-      {complaints.length === 0 ? (
-        <p className="empty-state">No complaints yet. Report an issue to get started.</p>
-      ) : (
-        complaints.map((item) => <ComplaintCard key={item.id} complaint={item} />)
+      {location.state?.message && <p className="form-message" role="status">{location.state.message}</p>}
+
+      <div className="filter-bar">
+        <input
+          type="search"
+          placeholder="Search by address, ward or complaint id"
+          value={filters.search}
+          onChange={(event) => update("search", event.target.value)}
+          aria-label="Search complaints"
+        />
+
+        <select
+          value={filters.status}
+          onChange={(event) => update("status", event.target.value)}
+          aria-label="Filter by status"
+        >
+          <option value="">All statuses</option>
+          {STATUS_LIST.map((status) => (
+            <option key={status} value={status}>
+              {status} ({statusCounts[status] || 0})
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filters.wasteType}
+          onChange={(event) => update("wasteType", event.target.value)}
+          aria-label="Filter by waste type"
+        >
+          <option value="">All waste types</option>
+          {WASTE_TYPES.map((type) => (
+            <option key={type} value={type}>{type}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="chip-row">
+        <button
+          type="button"
+          className={filters.status === "" ? "chip chip-active" : "chip"}
+          onClick={() => update("status", "")}
+        >
+          All · {totalCount}
+        </button>
+        {STATUS_LIST.map((status) => (
+          <button
+            key={status}
+            type="button"
+            className={filters.status === status ? "chip chip-active" : "chip"}
+            onClick={() => update("status", status)}
+          >
+            {status} · {statusCounts[status] || 0}
+          </button>
+        ))}
+      </div>
+
+      {error && <p className="form-message" role="alert">{error}</p>}
+
+      {!loading && items.length === 0 && (
+        <p className="empty-state">
+          {mine
+            ? "You have not reported anything yet. Start with the issue closest to your home."
+            : "No complaints match these filters yet."}
+        </p>
+      )}
+
+      {items.map((item) => (
+        <ComplaintCard key={item.id} complaint={item} />
+      ))}
+
+      {(data?.pages || 1) > 1 && (
+        <div className="pager">
+          <button type="button" className="button-ghost" disabled={page <= 1} onClick={() => setPage((value) => value - 1)}>
+            ← Previous
+          </button>
+          <span>Page {data.page} of {data.pages}</span>
+          <button
+            type="button"
+            className="button-ghost"
+            disabled={page >= (data?.pages || 1)}
+            onClick={() => setPage((value) => value + 1)}
+          >
+            Next →
+          </button>
+        </div>
       )}
     </div>
   );

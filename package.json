@@ -4,12 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "start": "node backend/server.js",
     "server": "node --watch backend/server.js",
     "api": "node backend/server.js",
     "build": "vite build",
-    "preview": "vite preview"
+    "build:watch": "vite build --watch"
   },
   "dependencies": {
     "cors": "^2.8.5",
