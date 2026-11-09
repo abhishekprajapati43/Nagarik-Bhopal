@@ -112,7 +112,7 @@ export default function Profile() {
               type="button"
               onClick={() => {
                 logout();
-                navigate("/login", { replace: true });
+                navigate("/", { replace: true });
               }}
             >
               Sign out

@@ -35,17 +35,26 @@ export default function UserLayout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [title, subtitle] = HEADINGS[normalise(pathname)] || HEADINGS["/dashboard"];
+  const currentPath = normalise(pathname);
+  const isComplaintDetail = currentPath.startsWith("/complaint/");
+  const [title, subtitle] =
+    HEADINGS[currentPath] ||
+    (isComplaintDetail
+      ? ["Complaint Details", "Full details of this civic report"]
+      : HEADINGS["/dashboard"]);
 
+  // Signing out clears the stored token and user, then returns to the public
+  // home page. Route guards keep dashboard pages closed if the visitor uses
+  // the browser Back button afterwards.
   const signOut = () => {
     logout();
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   return (
     <div className="admin-shell user-shell">
       <aside className="admin-sidebar">
-        <Link className="admin-brand" to="/home">
+        <Link className="admin-brand" to="/">
           <span className="brand-mark">N</span>
           <span>
             NAGARIK
@@ -60,16 +69,38 @@ export default function UserLayout() {
               {link.label}
             </NavLink>
           ))}
-
-          <button type="button" className="admin-nav-signout" onClick={signOut}>
-            <span className="admin-nav-icon" aria-hidden="true">⎋</span>
-            Logout
-          </button>
         </nav>
 
-        <div className="admin-sidebar-footer">
-          <Link to="/home">← Back to public site</Link>
+        <div className="admin-sidebar-footer user-sidebar-footer">
+          <Link to="/">← Back to public site</Link>
           <span>Signed in as {user?.email}</span>
+
+          {/* Pinned to the bottom of the resident sidebar on desktop. */}
+          <button
+            type="button"
+            className="user-logout"
+            onClick={signOut}
+            title="Log out"
+            aria-label="Log out"
+          >
+            <span className="user-logout-icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+            </span>
+            Logout
+          </button>
         </div>
       </aside>
 
@@ -87,9 +118,6 @@ export default function UserLayout() {
               <br />
               <small>Resident</small>
             </span>
-            <button type="button" className="small-button" onClick={signOut}>
-              Sign out
-            </button>
           </div>
         </header>
 

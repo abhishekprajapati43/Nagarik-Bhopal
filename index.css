@@ -628,6 +628,76 @@ button {
   padding: 0 1.5rem;
 }
 
+/* Minimal header shown on the sign-in screens only: brand, public home and a
+   single account action. No dashboard or authenticated navigation. */
+.auth-header {
+  position: sticky;
+  top: 0;
+  z-index: 600;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.auth-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink);
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  font-size: 0.88rem;
+  line-height: 1.2;
+}
+
+.auth-brand small {
+  display: block;
+  font-size: 0.53rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.auth-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.auth-header-nav a {
+  color: #3d4a44;
+}
+
+.auth-header-nav a:hover {
+  color: var(--brand);
+}
+
+.auth-header-nav .auth-header-cta {
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--cream);
+  font-weight: 700;
+}
+
+.auth-header-nav .auth-header-cta:hover {
+  background: var(--brand-deep);
+  color: var(--cream);
+}
+
 .auth-card {
   max-width: 480px;
   margin: 0 auto;
@@ -1556,6 +1626,27 @@ table tbody tr:nth-child(even) {
   .form-page {
     margin: 1.25rem auto;
     padding: 0 1rem;
+  }
+
+  .auth-header-inner {
+    padding: 0.7rem 1rem;
+  }
+
+  .auth-brand {
+    font-size: 0.8rem;
+  }
+
+  .auth-brand small {
+    display: none;
+  }
+
+  .auth-header-nav {
+    gap: 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  .auth-header-nav .auth-header-cta {
+    padding: 0.5rem 0.8rem;
   }
 
   .auth-card {

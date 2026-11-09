@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import AuthHeader from "../components/AuthHeader";
 import PasswordInput from "../components/PasswordInput";
 import { useAuth } from "../context/AuthContext";
 
@@ -49,63 +50,66 @@ export default function Login() {
   }
 
   return (
-    <section className="form-page auth-page">
-      <div className="auth-card">
-        <p className="eyebrow eyebrow-dark">GOOD TO SEE YOU AGAIN</p>
-        <h1>Welcome <em>back.</em></h1>
-        <p>Sign in to track your reports and the issues around you.</p>
+    <>
+      <AuthHeader
+        action={<Link className="auth-header-cta" to="/register">Register</Link>}
+      />
 
-        <form onSubmit={submit} className="auth-form" noValidate>
-          <label htmlFor="login-identifier">Email or mobile number
-            <input
-              id="login-identifier"
-              name="identifier"
-              type="text"
-              required
-              autoFocus
-              autoComplete="username"
-              placeholder="you@example.com or 98765 43210"
-            />
-          </label>
+      <section className="form-page auth-page">
+        <div className="auth-card">
+          <p className="eyebrow eyebrow-dark">GOOD TO SEE YOU AGAIN</p>
+          <h1>Welcome <em>back.</em></h1>
+          <p>Sign in to track your reports and the issues around you.</p>
 
-          <label htmlFor="login-password">Password
-            <PasswordInput
-              id="login-password"
-              name="password"
-              label="Password"
-              required
-              autoComplete="current-password"
-              placeholder="Your password"
-            />
-          </label>
+          <form onSubmit={submit} className="auth-form" noValidate>
+            <label htmlFor="login-identifier">Email or mobile number
+              <input
+                id="login-identifier"
+                name="identifier"
+                type="text"
+                required
+                autoFocus
+                autoComplete="username"
+                placeholder="you@example.com or 98765 43210"
+              />
+            </label>
 
-          <div className="auth-form-row">
-            <Link className="auth-text-link" to="/forgot-password">Forgot password?</Link>
-          </div>
+            <label htmlFor="login-password">Password
+              <PasswordInput
+                id="login-password"
+                name="password"
+                label="Password"
+                required
+                autoComplete="current-password"
+                placeholder="Your password"
+              />
+            </label>
 
-          {message && <p className="form-message" role="alert">{message}</p>}
+            <div className="auth-form-row">
+              <Link className="auth-text-link" to="/forgot-password">Forgot password?</Link>
+            </div>
 
-          <button className="button button-dark full-button" type="submit" disabled={submitting}>
-            {submitting ? "Signing in…" : "Sign in"} <span aria-hidden="true">↗</span>
-          </button>
-        </form>
+            {message && <p className="form-message" role="alert">{message}</p>}
 
-        <div className="auth-divider"><span>New to Nagarik?</span></div>
+            <button className="button button-dark full-button" type="submit" disabled={submitting}>
+              {submitting ? "Signing in…" : "Sign in"} <span aria-hidden="true">↗</span>
+            </button>
+          </form>
 
-        <Link className="button button-ghost full-button auth-register" to="/register">
-          Create an account
-        </Link>
+          <div className="auth-divider"><span>New to Nagarik?</span></div>
 
-        <p className="auth-switch auth-switch-muted">
-          City staff? <Link to="/admin/login">Administrator sign-in</Link>
-        </p>
-        <p className="local-note">
-          Demo resident · citizen@nagarik.bhopal / Citizen@123 · mobile 98111 22334
-        </p>
-        <p className="auth-switch auth-switch-muted">
-          <Link to="/">← Back to public home</Link>
-        </p>
-      </div>
-    </section>
+          <Link className="button button-ghost full-button auth-register" to="/register">
+            Create an account
+          </Link>
+
+          <p className="auth-switch auth-switch-muted">
+            City staff? <Link to="/admin/login">Administrator sign-in</Link>
+          </p>
+          <p className="local-note">
+            Demo resident · citizen@nagarik.bhopal / Citizen@123 · mobile 98111 22334
+          </p>
+        </div>
+      </section>
+    </>
   );
 }

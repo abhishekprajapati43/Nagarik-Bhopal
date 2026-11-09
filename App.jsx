@@ -43,14 +43,16 @@ const USER_SHELL_PATHS = [
 
 export default function App() {
   const { pathname } = useLocation();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   // The site header only exists after a successful sign-in, so the sign-in
   // screens stay clean. Both dashboards (admin and resident) have their own
   // sidebar and top bar, so the public header and footer stay hidden there.
   const currentPath = pathname.replace(/\/+$/, "") || "/";
   const isAdminConsole = currentPath.startsWith("/admin") && currentPath !== "/admin/login";
-  const isUserConsole = USER_SHELL_PATHS.includes(currentPath);
+  const isComplaintDetail = currentPath.startsWith("/complaint/");
+  const isUserConsole =
+    USER_SHELL_PATHS.includes(currentPath) || (isComplaintDetail && !isAdmin);
   const showSiteChrome = Boolean(user) && !isAdminConsole && !isUserConsole;
 
   return (
@@ -84,10 +86,15 @@ export default function App() {
             path="/complaint/:id"
             element={
               <ProtectedRoute>
-                <ComplaintDetails />
+                {/* Residents keep the dashboard sidebar but the shell hides its
+                    top bar on this page. Administrators keep the standalone
+                    details view used by their console. */}
+                {isAdmin ? <ComplaintDetails /> : <UserLayout />}
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<ComplaintDetails />} />
+          </Route>
           <Route
             path="/map"
             element={

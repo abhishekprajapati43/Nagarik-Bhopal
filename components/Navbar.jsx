@@ -6,8 +6,10 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const signOut = () => {
+    // Administrators keep returning to their own sign-in screen; residents go
+    // back to the public home page.
     logout();
-    navigate("/login", { replace: true });
+    navigate(isAdmin ? "/admin/login" : "/", { replace: true });
   };
 
   return (
