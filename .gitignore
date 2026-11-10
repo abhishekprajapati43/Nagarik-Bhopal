@@ -5,8 +5,16 @@ dist/
 
 # Local secrets - never commit real credentials
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# Local build verification output
+.verify-build/
 
 # Runtime uploads
 backend/storage/uploads/*
