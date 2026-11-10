@@ -126,6 +126,7 @@ hardcoded API keys were found.
 | `.env` ignored/untracked locally | **PASS** — `git status --ignored` reports `!! .env` |
 | `node --check` on all tracked backend/shared JS files | **PASS** — 78 files |
 | Backend module import (`import('./backend/app.js')`) | **PASS** |
+| Live API smoke test: `/api/health`, admin login, `/api/auth/me` | **PASS** — DB connected; token signed/verified with rotated secret |
 | Frontend production build (`vite build`) | **PASS** — 135 modules transformed |
 | `.env.example` placeholder-only check | **PASS** |
 | Source scan for API keys, tokens, private keys, cloud credentials | **PASS** — none found |
