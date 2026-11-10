@@ -61,7 +61,9 @@ export async function dispatch(service, method, args = {}, token = null) {
   }
 
   // `me` receives its token explicitly; every other method receives the actor.
-  if (method === "me") return service.me(args, null);
+  // The API client sends the token beside the arguments, so accept either
+  // placement instead of only the browser's { token } copy in `args`.
+  if (method === "me") return service.me({ token: token ?? args.token }, null);
 
   return service[method](args, actor);
 }

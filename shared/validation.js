@@ -100,7 +100,12 @@ export function complaintPayload(payload = {}) {
   const priority = PRIORITY_LIST.includes(payload.priority) ? payload.priority : "Medium";
 
   const image = String(payload.image ?? "");
-  if (image && !image.startsWith("data:image/") && !/^https?:\/\//.test(image)) {
+  const validImageSource =
+    image.startsWith("data:image/") ||
+    /^https?:\/\//.test(image) ||
+    /^\/uploads\/[A-Za-z0-9._-]+$/.test(image);
+
+  if (image && !validImageSource) {
     fail("The attached photo could not be read. Please choose the image again.");
   }
   if (image.length > MAX_IMAGE_BYTES) {

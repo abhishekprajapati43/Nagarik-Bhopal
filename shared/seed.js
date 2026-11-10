@@ -31,7 +31,7 @@ const complaintSeeds = [
   },
   {
     id: "2",
-    wasteType: "Plastic Waste",
+    wasteType: "Plastic",
     address: "Ashoka Garden, Bhopal",
     wardId: "ward-12",
     description: "Plastic dumped beside the community bin. The sweepers cleared it after a report.",

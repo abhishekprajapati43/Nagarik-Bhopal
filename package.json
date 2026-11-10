@@ -7,6 +7,7 @@
     "start": "node backend/server.js",
     "server": "node --watch backend/server.js",
     "api": "node backend/server.js",
+    "db:setup": "node backend/db/setup.js",
     "build": "vite build",
     "build:watch": "vite build --watch"
   },
@@ -17,6 +18,8 @@
     "helmet": "^8.0.0",
     "leaflet": "^1.9.4",
     "morgan": "^1.10.0",
+    "multer": "^2.5.0",
+    "pg": "^8.23.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
