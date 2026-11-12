@@ -556,13 +556,47 @@
 /* The console links always sit on their own row below the brand and account
    actions, so the header stays compact and predictable at every width. */
 
-/* On wide screens that row is spread across the whole header instead of
-   bunching at the left edge, so brand, sections and account actions read as
-   one balanced bar (admin, officer and resident consoles all share this). */
+/* Between the phone/tablet layout and the single-row desktop header the links
+   keep their own row, but grouped in the centre rather than spread apart. */
 @media (min-width: 961px) {
   .console-nav {
-    justify-content: space-between;
-    gap: 0.4rem 0.6rem;
+    justify-content: center;
+    gap: 0.4rem 1.05rem;
+  }
+}
+
+/* On wide screens brand, section links and account actions sit on one row and
+   the links are grouped in the centre with even, compact gaps instead of being
+   spread edge to edge (admin, officer and resident consoles share this).
+   The account name and resident icons are dropped there to keep the row roomy
+   for all ten admin sections; the avatar still identifies the signed-in user
+   and the language switcher stays available. */
+@media (min-width: 1280px) {
+  .console-header-inner {
+    flex-wrap: nowrap;
+    column-gap: 1.2rem;
+  }
+
+  .console-nav {
+    order: 0;
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    padding-bottom: 0;
+  }
+
+  .console-actions {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .console-user > span:last-child {
+    display: none;
+  }
+
+  .user-nav-icon {
+    display: none;
   }
 }
 
