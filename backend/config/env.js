@@ -47,6 +47,12 @@ if (isProduction) {
 
 const port = toPositiveInt(process.env.PORT, 5000);
 
+if (!process.env.AADHAAR_ENCRYPTION_KEY) {
+  console.warn(
+    "[config] AADHAAR_ENCRYPTION_KEY is not set - deriving the Aadhaar encryption key from JWT_SECRET. Set a dedicated key before production."
+  );
+}
+
 const defaultOrigins = [
   `http://localhost:${port}`,
   `http://127.0.0.1:${port}`,
@@ -99,6 +105,43 @@ export const env = Object.freeze({
 
   resetTokenTtlMinutes: toPositiveInt(process.env.RESET_TOKEN_TTL_MINUTES, 30),
   exposeResetToken: toBool(process.env.EXPOSE_RESET_TOKEN, !isProduction),
+
+  /**
+   * Aadhaar numbers are encrypted with AES-256-GCM before they reach the
+   * database and duplicate checks use a keyed HMAC hash. Set both secrets in
+   * production; otherwise they are derived from JWT_SECRET so a demo install
+   * keeps working without extra configuration.
+   */
+  aadhaar: Object.freeze({
+    encryptionKey: process.env.AADHAAR_ENCRYPTION_KEY || "",
+    lookupKey: process.env.AADHAAR_LOOKUP_KEY || "",
+  }),
+
+  /**
+   * Optional SMTP transport for automatic complaint emails. When host/user are
+   * missing, emails are still written to the `email_outbox` table and logged so
+   * no notification is lost, but nothing leaves the machine.
+   */
+  smtp: Object.freeze({
+    host: process.env.SMTP_HOST || "",
+    port: toPositiveInt(process.env.SMTP_PORT, 587),
+    secure: toBool(process.env.SMTP_SECURE, false),
+    user: process.env.SMTP_USER || "",
+    password: process.env.SMTP_PASSWORD || "",
+    from: process.env.SMTP_FROM || "Nagarik Bhopal <care@nagarik.bhopal>",
+    enabled: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER),
+  }),
+
+  /**
+   * Optional waste-classification endpoint. When WASTE_AI_URL is unset the
+   * service falls back to the built-in heuristic, so the UI always receives a
+   * prediction and manual submission is never blocked.
+   */
+  wasteAi: Object.freeze({
+    url: process.env.WASTE_AI_URL || "",
+    key: process.env.WASTE_AI_KEY || "",
+    enabled: Boolean(process.env.WASTE_AI_URL),
+  }),
 
   rateLimit: Object.freeze({
     enabled: toBool(process.env.RATE_LIMIT_ENABLED, true),

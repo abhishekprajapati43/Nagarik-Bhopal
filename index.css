@@ -1118,6 +1118,11 @@ table tbody tr:nth-child(even) {
   color: #b91c1c;
 }
 
+.pill-warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
 .rejected {
   background: #b91c1c;
   color: #fff;
@@ -1311,6 +1316,47 @@ table tbody tr:nth-child(even) {
   justify-content: center;
 }
 
+.identity-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.identity-note {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+  background: #fbfaf6;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+}
+
+.identity-block {
+  margin: 1rem 0 1.2rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid #f0c36a;
+  border-radius: 14px;
+  background: #fff8e6;
+  color: #7c4a03;
+}
+
+.identity-block p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0.35rem 0 0;
+}
+
+.identity-block .button {
+  margin-top: 0.7rem;
+}
+
 /* ---------- notifications ---------- */
 .notification-list {
   list-style: none;
@@ -1500,6 +1546,40 @@ table tbody tr:nth-child(even) {
 .location-note {
   font-size: 0.78rem;
   color: var(--muted);
+}
+
+/* ---------- language switcher (English / हिन्दी) ---------- */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.lang-switch-label {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.lang-switch select {
+  border: 1px solid #d9d3c4;
+  border-radius: 999px;
+  background: #fff;
+  color: #214b3e;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.28rem 0.6rem;
+  cursor: pointer;
+}
+
+.lang-switch-compact .lang-switch-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 /* ---------- complaint details additions ---------- */
@@ -1693,5 +1773,214 @@ table tbody tr:nth-child(even) {
 
   .bottom-cta {
     padding: 1.6rem;
+  }
+}
+
+/* ---------- AI suggestion, duplicates and heatmap ---------- */
+.ai-card {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #cfe3d8;
+  background: #f2f9f5;
+}
+
+.ai-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  color: #214b3e;
+}
+
+.ai-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #3d4a44;
+}
+
+/* ---------- ward picker on the complaint form ---------- */
+.ward-picker {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.ward-info-card {
+  margin-top: 0.9rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #d7e2f0;
+  background: #f5f9ff;
+}
+
+.ward-info-card h3 {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  color: #1f3a5f;
+}
+
+.ward-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.7rem 1.2rem;
+}
+
+.ward-info-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ward-info-grid span {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5b6b80;
+}
+
+.ward-info-grid b {
+  font-size: 0.92rem;
+  color: #21384f;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.ward-info-card .label-hint {
+  margin: 0.8rem 0 0;
+}
+
+.duplicate-card {
+  margin-top: 1.2rem;
+  padding: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #f0d9a8;
+  background: #fffaf0;
+}
+
+.duplicate-card h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+  color: #7c4a03;
+}
+
+.duplicate-list {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.duplicate-list li {
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #efe4cd;
+}
+
+.duplicate-list img,
+.duplicate-no-image {
+  width: 84px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f0ece0;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+
+.duplicate-list b {
+  font-size: 0.9rem;
+}
+
+.duplicate-list p {
+  margin: 0.15rem 0;
+  font-size: 0.82rem;
+  color: #3d4a44;
+}
+
+.duplicate-list small {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.map-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.map-mode {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: #f0ece0;
+}
+
+.map-mode button {
+  border: none;
+  background: transparent;
+  color: #3d4a44;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.map-mode button.map-mode-active {
+  background: #214b3e;
+  color: #f6f3ea;
+}
+
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.9rem 0;
+  font-size: 0.82rem;
+  color: #3d4a44;
+}
+
+.heat-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.heat-legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.heat-legend small {
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .duplicate-list li {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .duplicate-list img,
+  .duplicate-no-image {
+    width: 64px;
+    height: 54px;
+  }
+
+  .duplicate-list li .button {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 }

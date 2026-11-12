@@ -7,6 +7,7 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
+import OfficerLogin from "./pages/OfficerLogin";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ReportComplaint from "./components/ReportComplaint";
@@ -22,12 +23,16 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminComplaints from "./pages/admin/AdminComplaints";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminCitizenVerification from "./pages/admin/AdminCitizenVerification";
 import AdminWards from "./pages/admin/AdminWards";
 import AdminRepresentatives from "./pages/admin/AdminRepresentatives";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminSettings from "./pages/admin/AdminSettings";
+import OfficerLayout from "./pages/officer/OfficerLayout";
+import OfficerDashboard from "./pages/officer/OfficerDashboard";
+import OfficerComplaints from "./pages/officer/OfficerComplaints";
 
 /* Routes that render inside the resident dashboard shell. The public header
    and footer step aside so the sidebar/topbar layout matches the admin console. */
@@ -43,17 +48,20 @@ const USER_SHELL_PATHS = [
 
 export default function App() {
   const { pathname } = useLocation();
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isOfficer } = useAuth();
 
   // The site header only exists after a successful sign-in, so the sign-in
-  // screens stay clean. Both dashboards (admin and resident) have their own
-  // sidebar and top bar, so the public header and footer stay hidden there.
+  // screens stay clean. All three dashboards (admin, officer and resident)
+  // have their own sidebar and top bar, so the public chrome stays hidden.
   const currentPath = pathname.replace(/\/+$/, "") || "/";
   const isAdminConsole = currentPath.startsWith("/admin") && currentPath !== "/admin/login";
+  const isOfficerConsole =
+    currentPath.startsWith("/officer") && currentPath !== "/officer/login";
   const isComplaintDetail = currentPath.startsWith("/complaint/");
   const isUserConsole =
-    USER_SHELL_PATHS.includes(currentPath) || (isComplaintDetail && !isAdmin);
-  const showSiteChrome = Boolean(user) && !isAdminConsole && !isUserConsole;
+    USER_SHELL_PATHS.includes(currentPath) || (isComplaintDetail && !isAdmin && !isOfficer);
+  const showSiteChrome =
+    Boolean(user) && !isAdminConsole && !isOfficerConsole && !isUserConsole;
 
   return (
     <div className="app-shell">
@@ -89,7 +97,7 @@ export default function App() {
                 {/* Residents keep the dashboard sidebar but the shell hides its
                     top bar on this page. Administrators keep the standalone
                     details view used by their console. */}
-                {isAdmin ? <ComplaintDetails /> : <UserLayout />}
+                {isAdmin || isOfficer ? <ComplaintDetails /> : <UserLayout />}
               </ProtectedRoute>
             }
           >
@@ -131,6 +139,23 @@ export default function App() {
           {/* Administrator authentication */}
           <Route path="/admin/login" element={<AdminLogin />} />
 
+          {/* Sanitation officer authentication */}
+          <Route path="/officer/login" element={<OfficerLogin />} />
+
+          {/* Officer-only console */}
+          <Route
+            path="/officer"
+            element={
+              <ProtectedRoute officer>
+                <OfficerLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="/officer/dashboard" replace />} />
+            <Route path="dashboard" element={<OfficerDashboard />} />
+            <Route path="complaints" element={<OfficerComplaints />} />
+          </Route>
+
           {/* Administrator-only console */}
           <Route
             path="/admin"
@@ -143,6 +168,7 @@ export default function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="complaints" element={<AdminComplaints />} />
             <Route path="users" element={<AdminUsers />} />
+            <Route path="citizen-verification" element={<AdminCitizenVerification />} />
             <Route path="wards" element={<AdminWards />} />
             <Route path="representatives" element={<AdminRepresentatives />} />
             <Route path="analytics" element={<AdminAnalytics />} />

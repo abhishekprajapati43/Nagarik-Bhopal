@@ -8,8 +8,10 @@ import {
   USER_STATUS,
 } from "../../shared/constants.js";
 import {
-  emailAddress,
+  aadhaarNumber,
   loginIdentifier,
+  mobileNumber,
+  optionalEmail,
   password as passwordRule,
   phoneDigits,
   phoneNumber,
@@ -23,6 +25,11 @@ import * as resets from "../repositories/passwordReset.repository.js";
 import * as settings from "../repositories/settings.repository.js";
 import * as audit from "../repositories/audit.repository.js";
 import { publicUser } from "../utils/serialize.js";
+import {
+  aadhaarLast4,
+  encryptAadhaar,
+  hashAadhaar,
+} from "../utils/aadhaar.js";
 import { withTransaction } from "../config/database.js";
 
 const hashResetToken = (token) => crypto.createHash("sha256").update(token).digest("hex");
@@ -86,19 +93,28 @@ export const register = async (payload = {}, context = {}) => {
   }
 
   const name = requiredText(payload.name, { field: "Full name", min: 2, max: 60 });
-  const email = emailAddress(payload.email);
+  const email = optionalEmail(payload.email);
   const rawPassword = passwordRule(payload.password);
-  const phone = phoneNumber(payload.phone);
+  const phone = mobileNumber(payload.phone);
+  const aadhaar = aadhaarNumber(payload.aadhaarNumber ?? payload.aadhaar);
   const wardId = await requireWard(payload.wardId ? String(payload.wardId) : "");
 
-  if (await users.findByEmail(email)) {
+  if (email && (await users.findByEmail(email))) {
     throw new AppError(ERROR_CODES.EMAIL_TAKEN, "An account with that email already exists.");
   }
 
-  if (phone && (await users.phoneTaken(phoneDigits(phone)))) {
+  if (await users.phoneTaken(phoneDigits(phone))) {
     throw new AppError(ERROR_CODES.CONFLICT, "That mobile number is already registered.");
   }
 
+  const aadhaarHash = hashAadhaar(aadhaar);
+
+  if (await users.aadhaarHashTaken(aadhaarHash)) {
+    throw new AppError(ERROR_CODES.CONFLICT, "That Aadhaar number is already registered.");
+  }
+
+  const encryptedAadhaar = encryptAadhaar(aadhaar);
+  const last4 = aadhaarLast4(aadhaar);
   const passwordHash = await hashPassword(rawPassword);
 
   const user = await users.create({
@@ -109,6 +125,14 @@ export const register = async (payload = {}, context = {}) => {
     role: ROLES.USER,
     status: USER_STATUS.ACTIVE,
     passwordHash,
+    aadhaarNumber: encryptedAadhaar,
+    aadhaarLast4: last4,
+    aadhaarHash,
+    aadhaarVerified: false,
+    aadhaarVerifiedAt: null,
+    verificationStatus: "Pending",
+    verificationRemarks: "",
+    aadhaarSubmittedAt: new Date().toISOString(),
   });
 
   await notifications.create({
@@ -116,6 +140,19 @@ export const register = async (payload = {}, context = {}) => {
     title: "Welcome to Nagarik Bhopal",
     body: "Track your reports, upvote issues around you and follow the fix.",
     type: "system",
+  });
+
+  await notifications.create({
+    userId: user.id,
+    title: "Aadhaar verification submitted",
+    body: `Your Aadhaar ending ${last4} is waiting for city office review. You can submit complaints once it is verified.`,
+    type: "system",
+  });
+
+  await notifications.createForUsers(await users.listAdminIds(), {
+    title: "New Aadhaar verification request",
+    body: `${user.name} submitted Aadhaar ending ${last4} for verification.`,
+    type: "admin",
   });
 
   await audit.record({
@@ -127,11 +164,88 @@ export const register = async (payload = {}, context = {}) => {
     userAgent: context.userAgent,
   });
 
+  await audit.record({
+    actorId: user.id,
+    action: "aadhaar.submitted",
+    entity: "user",
+    entityId: user.id,
+    ip: context.ip,
+    userAgent: context.userAgent,
+    metadata: { last4, source: "registration", status: "Pending" },
+  });
+
   return { token: await tokenFor(user), user: publicUser(user) };
 };
 
-export const login = async (payload = {}, { admin = false, context = {} } = {}) => {
-  // The resident form sends `identifier`; the admin form sends `email`.
+/**
+ * Complete or retry Aadhaar verification from the resident profile. Login is
+ * never gated on this; only complaint submission is.
+ */
+export const submitAadhaar = async (actor, payload = {}, context = {}) => {
+  if (!actor || actor.role !== ROLES.USER) {
+    throw new AppError(
+      ERROR_CODES.FORBIDDEN,
+      "Only resident accounts have Aadhaar verification."
+    );
+  }
+
+  if (actor.verification_status === "Verified" || actor.aadhaar_verified) {
+    throw new AppError(ERROR_CODES.CONFLICT, "Your identity is already verified.");
+  }
+
+  const aadhaar = aadhaarNumber(payload.aadhaarNumber ?? payload.aadhaar);
+  const aadhaarHash = hashAadhaar(aadhaar);
+
+  if (await users.aadhaarHashTaken(aadhaarHash, actor.id)) {
+    throw new AppError(ERROR_CODES.CONFLICT, "That Aadhaar number is already registered.");
+  }
+
+  const encryptedAadhaar = encryptAadhaar(aadhaar);
+  const last4 = aadhaarLast4(aadhaar);
+  const updated = await users.updateAadhaar(actor.id, {
+    encrypted: encryptedAadhaar,
+    last4,
+    hash: aadhaarHash,
+  });
+
+  if (!updated) {
+    throw new AppError(ERROR_CODES.NOT_FOUND, "That resident account could not be found.");
+  }
+
+  await notifications.create({
+    userId: updated.id,
+    title: "Aadhaar verification submitted",
+    body: `Your Aadhaar ending ${last4} is waiting for city office review. You can submit complaints once it is verified.`,
+    type: "system",
+  });
+
+  await notifications.createForUsers(await users.listAdminIds(), {
+    title: "New Aadhaar verification request",
+    body: `${updated.name} submitted Aadhaar ending ${last4} for verification.`,
+    type: "admin",
+  });
+
+  await audit.record({
+    actorId: updated.id,
+    action: "aadhaar.submitted",
+    entity: "user",
+    entityId: updated.id,
+    ip: context.ip,
+    userAgent: context.userAgent,
+    metadata: { last4, source: "profile", status: "Pending" },
+  });
+
+  return {
+    user: publicUser(updated),
+    message: "Aadhaar submitted. The city office will review it shortly.",
+  };
+};
+
+export const login = async (
+  payload = {},
+  { admin = false, officer = false, context = {} } = {}
+) => {
+  // The resident form sends `identifier`; the staff forms send `email`.
   const identifier = loginIdentifier(payload.identifier ?? payload.email ?? "");
   const password = String(payload.password ?? "");
 
@@ -152,7 +266,7 @@ export const login = async (payload = {}, { admin = false, context = {} } = {}) 
       entity: "user",
       ip: context.ip,
       userAgent: context.userAgent,
-      metadata: { identifierType: identifier.type, admin },
+      metadata: { identifierType: identifier.type, admin, officer },
     });
     throw new AppError(ERROR_CODES.INVALID_CREDENTIALS, "Email/mobile or password is incorrect.");
   }
@@ -168,11 +282,33 @@ export const login = async (payload = {}, { admin = false, context = {} } = {}) 
     );
   }
 
+  if (officer && user.role !== ROLES.OFFICER) {
+    throw new AppError(
+      ERROR_CODES.FORBIDDEN,
+      "This account does not have sanitation officer access."
+    );
+  }
+
+  if (!admin && !officer && user.role !== ROLES.USER) {
+    throw new AppError(
+      ERROR_CODES.FORBIDDEN,
+      user.role === ROLES.OFFICER
+        ? "Officer accounts must use the officer sign-in page."
+        : "Administrators must use the admin sign-in page."
+    );
+  }
+
   await users.touchLogin(user.id);
+
+  const action = admin
+    ? "auth.admin_login"
+    : officer
+      ? "auth.officer_login"
+      : "auth.login";
 
   await audit.record({
     actorId: user.id,
-    action: admin ? "auth.admin_login" : "auth.login",
+    action,
     entity: "user",
     entityId: user.id,
     ip: context.ip,
@@ -181,6 +317,12 @@ export const login = async (payload = {}, { admin = false, context = {} } = {}) 
 
   return { token: await tokenFor(user), user: publicUser(user) };
 };
+
+export const officerLogin = (payload = {}, options = {}) =>
+  login(payload, { ...options, officer: true });
+
+export const adminLogin = (payload = {}, options = {}) =>
+  login(payload, { ...options, admin: true });
 
 export const me = async (actor) => ({ user: publicUser(actor) });
 
@@ -323,7 +465,10 @@ export const resetPassword = async (payload = {}, context = {}) => {
 export default {
   authenticateToken,
   register,
+  submitAadhaar,
   login,
+  adminLogin,
+  officerLogin,
   me,
   updateProfile,
   changePassword,

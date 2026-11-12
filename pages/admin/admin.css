@@ -7,6 +7,146 @@
   background: var(--cream);
 }
 
+/* Admin and officer consoles use a header-first shell: the section links that
+   used to live in the left sidebar now sit in a sticky top header, matching the
+   public site header. The resident portal keeps the original sidebar shell. */
+.console-shell {
+  display: flex;
+  flex-direction: column;
+}
+
+.console-header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+
+.console-header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.75rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem 1.4rem;
+  flex-wrap: wrap;
+}
+
+.console-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  font-size: 0.85rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.console-brand small {
+  display: block;
+  font-size: 0.53rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.console-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem 0.95rem;
+  flex-wrap: nowrap;
+  order: 3;
+  flex: 1 1 100%;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+  scrollbar-width: none;
+  font-size: 0.86rem;
+}
+
+.console-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.console-nav a {
+  color: #3d4a44;
+  font-weight: 500;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.console-nav a:hover {
+  color: var(--brand);
+}
+
+.console-nav a.active {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+  font-weight: 700;
+}
+
+.console-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.console-public {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.console-public:hover {
+  color: var(--brand);
+}
+
+.console-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  line-height: 1.25;
+}
+
+.console-user b {
+  font-size: 0.82rem;
+}
+
+.console-user small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.console-page-head {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.15rem 1.4rem 0;
+}
+
+.console-page-head h1 {
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.console-page-head small {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
 .admin-sidebar {
   width: 256px;
   flex-shrink: 0;
@@ -159,6 +299,7 @@
   border-radius: 16px;
   padding: 1.2rem;
   box-shadow: 0 6px 18px rgba(20, 35, 29, 0.04);
+  min-width: 0;
 }
 
 .admin-card > h2 {
@@ -346,6 +487,57 @@
   color: var(--muted);
 }
 
+.admin-inline-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-form-wide {
+  grid-column: 1 / -1;
+}
+
+.verification-review {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fbfaf6;
+}
+
+.verification-review p {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.verification-review code {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.admin-card .button.danger {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  color: #fff;
+}
+
+.admin-card .button.danger:hover:not(:disabled) {
+  background: #991b1b;
+}
+
+.verification-table {
+  min-width: 760px;
+}
+
+.verification-table th {
+  white-space: nowrap;
+}
+
 .admin-toggle {
   display: flex;
   align-items: center;
@@ -361,9 +553,35 @@
   accent-color: var(--brand);
 }
 
+/* The console links always sit on their own row below the brand and account
+   actions, so the header stays compact and predictable at every width. */
+
+/* On wide screens that row is spread across the whole header instead of
+   bunching at the left edge, so brand, sections and account actions read as
+   one balanced bar (admin, officer and resident consoles all share this). */
+@media (min-width: 961px) {
+  .console-nav {
+    justify-content: space-between;
+    gap: 0.4rem 0.6rem;
+  }
+}
+
 @media (max-width: 960px) {
   .admin-shell {
     flex-direction: column;
+  }
+
+  .console-header-inner {
+    padding: 0.65rem 1rem;
+    gap: 0.55rem 1rem;
+  }
+
+  .console-actions {
+    gap: 0.55rem;
+  }
+
+  .console-page-head {
+    padding: 0.9rem 1rem 0;
   }
 
   .admin-sidebar {
@@ -409,4 +627,179 @@
   .admin-topbar {
     padding: 0.7rem 0.9rem;
   }
+
+  .console-header-inner {
+    gap: 0.35rem 0.5rem;
+  }
+
+  .console-actions {
+    gap: 0.35rem;
+  }
+
+  .console-actions .small-button {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.72rem;
+  }
+
+  .console-user {
+    gap: 0.3rem;
+  }
+
+  .console-public,
+  .console-user small,
+  .console-user > span:last-child {
+    display: none;
+  }
+
+  .console-nav {
+    font-size: 0.8rem;
+    gap: 0.85rem;
+  }
+}
+
+/* ---------- analytics trend + officer load ---------- */
+.trend-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trend-chart svg {
+  width: 100%;
+  height: 170px;
+  overflow: visible;
+}
+
+.trend-axis {
+  stroke: #e4dfd2;
+  stroke-width: 0.4;
+}
+
+.trend-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.trend-labels span {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trend-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: #3d4a44;
+}
+
+.trend-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.trend-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.trend-legend small {
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.load-bar {
+  display: inline-block;
+  width: 84px;
+  height: 8px;
+  border-radius: 999px;
+  background: #eee9dc;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.load-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #16a34a;
+}
+
+/* ---------- report type switch ---------- */
+.report-type {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 4px;
+  border-radius: 999px;
+  background: #f0ece0;
+  margin-bottom: 1rem;
+}
+
+.report-type button {
+  border: none;
+  background: transparent;
+  color: #3d4a44;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.report-type button.report-type-active {
+  background: #214b3e;
+  color: #f6f3ea;
+}
+
+/* ---------- email template editor ---------- */
+.template-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.template-card {
+  border: 1px solid #e4dfd2;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  background: #fbfaf6;
+}
+
+.template-card summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.template-card summary span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.template-card[open] summary {
+  margin-bottom: 0.7rem;
+}
+
+.template-card textarea {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.8rem;
 }

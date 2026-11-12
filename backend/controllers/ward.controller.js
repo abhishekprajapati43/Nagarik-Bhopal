@@ -2,7 +2,11 @@ import { asyncHandler, getRequestContext, sendCreated, sendMessage, sendOk } fro
 import * as wards from "../services/ward.service.js";
 
 export const list = asyncHandler(async (req, res) =>
-  sendOk(res, await wards.list(req.user))
+  sendOk(res, await wards.list(req.user, req.query))
+);
+
+export const heatmap = asyncHandler(async (req, res) =>
+  sendOk(res, await wards.heatmap())
 );
 
 export const save = asyncHandler(async (req, res) => {

@@ -65,3 +65,5 @@ export const requireRole = (...roles) => (req, _res, next) => {
 };
 
 export const requireAdmin = requireRole(ROLES.ADMIN);
+export const requireOfficer = requireRole(ROLES.OFFICER);
+export const requireStaff = requireRole(ROLES.ADMIN, ROLES.OFFICER);

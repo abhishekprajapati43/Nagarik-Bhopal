@@ -59,9 +59,10 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signIn = useCallback(
-    async (credentials, { admin = false } = {}) => {
+    async (credentials, { admin = false, officer = false } = {}) => {
       try {
-        const result = await call(admin ? "adminLogin" : "login", credentials);
+        const method = admin ? "adminLogin" : officer ? "officerLogin" : "login";
+        const result = await call(method, credentials);
         startSession(result);
         return { ok: true, user: result.user };
       } catch (error) {
@@ -73,6 +74,10 @@ export function AuthProvider({ children }) {
 
   const login = useCallback((credentials) => signIn(credentials), [signIn]);
   const adminLogin = useCallback((credentials) => signIn(credentials, { admin: true }), [signIn]);
+  const officerLogin = useCallback(
+    (credentials) => signIn(credentials, { officer: true }),
+    [signIn]
+  );
 
   const register = useCallback(
     async (payload) => {
@@ -106,19 +111,36 @@ export function AuthProvider({ children }) {
     [session.token]
   );
 
+  const submitAadhaar = useCallback(
+    async (payload) => {
+      try {
+        const result = await call("submitAadhaar", payload);
+        setSession({ token: session.token, user: result.user });
+        setSessionState({ token: session.token, user: result.user });
+        return { ok: true, message: result.message, user: result.user };
+      } catch (error) {
+        return { ok: false, message: messageFor(error) };
+      }
+    },
+    [session.token]
+  );
+
   const value = useMemo(
     () => ({
       user: session.user,
       token: session.token,
       isAuthenticated: Boolean(session.user),
       isAdmin: session.user?.role === ROLES.ADMIN,
+      isOfficer: session.user?.role === ROLES.OFFICER,
       login,
       adminLogin,
+      officerLogin,
       register,
       logout,
       updateProfile,
+      submitAadhaar,
     }),
-    [session, login, adminLogin, register, logout, updateProfile]
+    [session, login, adminLogin, officerLogin, register, logout, updateProfile, submitAadhaar]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

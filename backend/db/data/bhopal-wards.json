@@ -1,0 +1,1192 @@
+[
+  {
+    "wardNumber": 1,
+    "wardName": "Mahatma Gandhi",
+    "area": "Mahatma Gandhi",
+    "zoneNumber": 1,
+    "assemblyConstituency": "Berasia (SC)",
+    "councillorName": "Mr. Laxman Rajput",
+    "councillorMobile": "7587988901",
+    "population": 25889,
+    "center": [
+      23.314058,
+      77.349022
+    ]
+  },
+  {
+    "wardNumber": 2,
+    "wardName": "Airport",
+    "area": "Airport",
+    "zoneNumber": 1,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Kusum Chaturvedi",
+    "councillorMobile": "7587988902",
+    "population": 23173,
+    "center": [
+      23.287844,
+      77.33087
+    ]
+  },
+  {
+    "wardNumber": 3,
+    "wardName": "Bhauri",
+    "area": "Bhauri",
+    "zoneNumber": 1,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mrs. Karishma Meena",
+    "councillorMobile": "7587988903",
+    "population": 21182,
+    "center": [
+      23.275906,
+      77.301416
+    ]
+  },
+  {
+    "wardNumber": 4,
+    "wardName": "Hemu Colony",
+    "area": "Hemu Colony",
+    "zoneNumber": 1,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mr. Rajesh Hingorani",
+    "councillorMobile": "7587988904",
+    "population": 24527,
+    "center": [
+      23.262313,
+      77.335953
+    ]
+  },
+  {
+    "wardNumber": 5,
+    "wardName": "Sadhu Waswani",
+    "area": "Sadhu Waswani",
+    "zoneNumber": 1,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mr. Ashok Maran",
+    "councillorMobile": "7587988905",
+    "population": 21500,
+    "center": [
+      23.261522,
+      77.349646
+    ]
+  },
+  {
+    "wardNumber": 6,
+    "wardName": "Mahavir Giri",
+    "area": "Mahavir Giri",
+    "zoneNumber": 2,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Jyoti Yadav",
+    "councillorMobile": "7587988906",
+    "population": 21267,
+    "center": [
+      23.280605,
+      77.365868
+    ]
+  },
+  {
+    "wardNumber": 7,
+    "wardName": "Koh-E-Fiza",
+    "area": "Koh-E-Fiza",
+    "zoneNumber": 2,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Priyanka Mishra",
+    "councillorMobile": "7587988907",
+    "population": 23744,
+    "center": [
+      23.270765,
+      77.372351
+    ]
+  },
+  {
+    "wardNumber": 8,
+    "wardName": "Royal Market",
+    "area": "Royal Market",
+    "zoneNumber": 2,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Rehana Sultan",
+    "councillorMobile": "7587988908",
+    "population": 25712,
+    "center": [
+      23.257966,
+      77.375815
+    ]
+  },
+  {
+    "wardNumber": 9,
+    "wardName": "Baag Munshi Hussain",
+    "area": "Baag Munshi Hussain",
+    "zoneNumber": 3,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Nahid",
+    "councillorMobile": "7587988909",
+    "population": 26000,
+    "center": [
+      23.266898,
+      77.397857
+    ]
+  },
+  {
+    "wardNumber": 10,
+    "wardName": "Eidgaah Hills",
+    "area": "Eidgaah Hills",
+    "zoneNumber": 2,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Saroj",
+    "councillorMobile": "7587988910",
+    "population": 25194,
+    "center": [
+      23.268572,
+      77.383337
+    ]
+  },
+  {
+    "wardNumber": 11,
+    "wardName": "Babu Jagjivan Ram",
+    "area": "Babu Jagjivan Ram",
+    "zoneNumber": 3,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Anita Kanerji",
+    "councillorMobile": "7587988911",
+    "population": 25852,
+    "center": [
+      23.273149,
+      77.383268
+    ]
+  },
+  {
+    "wardNumber": 12,
+    "wardName": "Nariyal Kheda",
+    "area": "Nariyal Kheda",
+    "zoneNumber": 3,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mr. Devendra Bhargava",
+    "councillorMobile": "7587988912",
+    "population": 22511,
+    "center": [
+      23.287073,
+      77.396763
+    ]
+  },
+  {
+    "wardNumber": 13,
+    "wardName": "Geetanjali",
+    "area": "Geetanjali",
+    "zoneNumber": 3,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mr. Manoj Rathore",
+    "councillorMobile": "7587988913",
+    "population": 25322,
+    "center": [
+      23.2829,
+      77.390548
+    ]
+  },
+  {
+    "wardNumber": 14,
+    "wardName": "Shahjahanabad",
+    "area": "Shahjahanabad",
+    "zoneNumber": 3,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Sheeba Masood Ali",
+    "councillorMobile": "7587988914",
+    "population": 25884,
+    "center": [
+      23.27315,
+      77.400541
+    ]
+  },
+  {
+    "wardNumber": 15,
+    "wardName": "J.P. Nagar",
+    "area": "J.P. Nagar",
+    "zoneNumber": 4,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Shailesh Sahu",
+    "councillorMobile": "7587988915",
+    "population": 19438,
+    "center": [
+      23.276379,
+      77.407901
+    ]
+  },
+  {
+    "wardNumber": 16,
+    "wardName": "Motilal Nehru",
+    "area": "Motilal Nehru",
+    "zoneNumber": 4,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Mohd. Sarvar",
+    "councillorMobile": "7587988916",
+    "population": 21167,
+    "center": [
+      23.280177,
+      77.408303
+    ]
+  },
+  {
+    "wardNumber": 17,
+    "wardName": "Ibrahimganj",
+    "area": "Ibrahimganj",
+    "zoneNumber": 4,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Sheetal Verma",
+    "councillorMobile": "7587988917",
+    "population": 24291,
+    "center": [
+      23.270311,
+      77.404623
+    ]
+  },
+  {
+    "wardNumber": 18,
+    "wardName": "Ram Mandir",
+    "area": "Ram Mandir",
+    "zoneNumber": 4,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Raju Kushwaha",
+    "councillorMobile": "7587988918",
+    "population": 25109,
+    "center": [
+      23.270361,
+      77.411664
+    ]
+  },
+  {
+    "wardNumber": 19,
+    "wardName": "Lal Bahadur Shastri",
+    "area": "Lal Bahadur Shastri",
+    "zoneNumber": 5,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Waseem Uddin",
+    "councillorMobile": "7587988919",
+    "population": 19733,
+    "center": [
+      23.261687,
+      77.408893
+    ]
+  },
+  {
+    "wardNumber": 20,
+    "wardName": "Mahavir Swami",
+    "area": "Mahavir Swami",
+    "zoneNumber": 4,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Pooja Sharma",
+    "councillorMobile": "7587988920",
+    "population": 19266,
+    "center": [
+      23.259245,
+      77.403829
+    ]
+  },
+  {
+    "wardNumber": 21,
+    "wardName": "Jain Mandir",
+    "area": "Jain Mandir",
+    "zoneNumber": 2,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Vineeta Soni",
+    "councillorMobile": "7587988921",
+    "population": 19288,
+    "center": [
+      23.258677,
+      77.398345
+    ]
+  },
+  {
+    "wardNumber": 22,
+    "wardName": "Moti Masjid",
+    "area": "Moti Masjid",
+    "zoneNumber": 5,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Samar Huzur",
+    "councillorMobile": "7587988922",
+    "population": 19442,
+    "center": [
+      23.252971,
+      77.401494
+    ]
+  },
+  {
+    "wardNumber": 23,
+    "wardName": "Islampura",
+    "area": "Islampura",
+    "zoneNumber": 5,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Laika Bee",
+    "councillorMobile": "7587988923",
+    "population": 21005,
+    "center": [
+      23.25472,
+      77.406831
+    ]
+  },
+  {
+    "wardNumber": 24,
+    "wardName": "Rani Kamlapati",
+    "area": "Rani Kamlapati",
+    "zoneNumber": 5,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Shabista Sultan",
+    "councillorMobile": "7587988924",
+    "population": 25001,
+    "center": [
+      23.238191,
+      77.386041
+    ]
+  },
+  {
+    "wardNumber": 25,
+    "wardName": "Swami Vivekananda",
+    "area": "Swami Vivekananda",
+    "zoneNumber": 6,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Jagdish Yadav",
+    "councillorMobile": "7587988925",
+    "population": 21361,
+    "center": [
+      23.231594,
+      77.39125
+    ]
+  },
+  {
+    "wardNumber": 26,
+    "wardName": "Dr.Ambedkar",
+    "area": "Dr.Ambedkar",
+    "zoneNumber": 6,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Rajmani Uikey",
+    "councillorMobile": "7587988926",
+    "population": 20121,
+    "center": [
+      23.219566,
+      77.359135
+    ]
+  },
+  {
+    "wardNumber": 27,
+    "wardName": "Goswami Tulsidas",
+    "area": "Goswami Tulsidas",
+    "zoneNumber": 6,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Veenu Saxena",
+    "councillorMobile": "7587988927",
+    "population": 24989,
+    "center": [
+      23.216033,
+      77.391674
+    ]
+  },
+  {
+    "wardNumber": 28,
+    "wardName": "Rani Awantibai",
+    "area": "Rani Awantibai",
+    "zoneNumber": 6,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Kishan Suryavanshi",
+    "councillorMobile": "7587988928",
+    "population": 24155,
+    "center": [
+      23.219865,
+      77.399724
+    ]
+  },
+  {
+    "wardNumber": 29,
+    "wardName": "Maulana Abdul Kalam Azad",
+    "area": "Maulana Abdul Kalam Azad",
+    "zoneNumber": 18,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Devanshu Kasana",
+    "councillorMobile": "7587988929",
+    "population": 25529,
+    "center": [
+      23.194527,
+      77.389261
+    ]
+  },
+  {
+    "wardNumber": 30,
+    "wardName": "Kushabhau Thakre",
+    "area": "Kushabhau Thakre",
+    "zoneNumber": 7,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Praveen Saxena",
+    "councillorMobile": "7587988930",
+    "population": 23007,
+    "center": [
+      23.207644,
+      77.416784
+    ]
+  },
+  {
+    "wardNumber": 31,
+    "wardName": "Chhtrapati Shivaji",
+    "area": "Chhtrapati Shivaji",
+    "zoneNumber": 7,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Brijula Sachan",
+    "councillorMobile": "7587988931",
+    "population": 21171,
+    "center": [
+      23.231395,
+      77.409581
+    ]
+  },
+  {
+    "wardNumber": 32,
+    "wardName": "Jawahar Lal Nehru",
+    "area": "Jawahar Lal Nehru",
+    "zoneNumber": 7,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Aarti Aneja",
+    "councillorMobile": "7587988932",
+    "population": 19830,
+    "center": [
+      23.231751,
+      77.397839
+    ]
+  },
+  {
+    "wardNumber": 33,
+    "wardName": "Pt. Madanmohan Malviya",
+    "area": "Pt. Madanmohan Malviya",
+    "zoneNumber": 8,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. R.K. Singh",
+    "councillorMobile": "7587988933",
+    "population": 24819,
+    "center": [
+      23.237211,
+      77.4179
+    ]
+  },
+  {
+    "wardNumber": 34,
+    "wardName": "Ravindra Nath Tagore",
+    "area": "Ravindra Nath Tagore",
+    "zoneNumber": 8,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Pappu Vilas Ghadge",
+    "councillorMobile": "7587988934",
+    "population": 22798,
+    "center": [
+      23.245092,
+      77.411491
+    ]
+  },
+  {
+    "wardNumber": 35,
+    "wardName": "Jahangirabad",
+    "area": "Jahangirabad",
+    "zoneNumber": 8,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mrs. Shereen Khan",
+    "councillorMobile": "7587988935",
+    "population": 25485,
+    "center": [
+      23.255291,
+      77.413903
+    ]
+  },
+  {
+    "wardNumber": 36,
+    "wardName": "Chandbad",
+    "area": "Chandbad",
+    "zoneNumber": 10,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Geeta Prasad Mali",
+    "councillorMobile": "7587988936",
+    "population": 22512,
+    "center": [
+      23.262574,
+      77.41356
+    ]
+  },
+  {
+    "wardNumber": 37,
+    "wardName": "Kapdamil",
+    "area": "Kapdamil",
+    "zoneNumber": 10,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mrs. Vandana",
+    "councillorMobile": "7587988937",
+    "population": 23324,
+    "center": [
+      23.274119,
+      77.423982
+    ]
+  },
+  {
+    "wardNumber": 38,
+    "wardName": "Semra",
+    "area": "Semra",
+    "zoneNumber": 10,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mrs. Gouri Pathak",
+    "councillorMobile": "7587988938",
+    "population": 21249,
+    "center": [
+      23.265783,
+      77.429708
+    ]
+  },
+  {
+    "wardNumber": 39,
+    "wardName": "Naveen Nagar",
+    "area": "Naveen Nagar",
+    "zoneNumber": 11,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Anand Kumar Gupta",
+    "councillorMobile": "7587988939",
+    "population": 22521,
+    "center": [
+      23.260528,
+      77.419954
+    ]
+  },
+  {
+    "wardNumber": 40,
+    "wardName": "Aishbagh",
+    "area": "Aishbagh",
+    "zoneNumber": 11,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mrs. Masarrat",
+    "councillorMobile": "7587988940",
+    "population": 23230,
+    "center": [
+      23.257508,
+      77.422418
+    ]
+  },
+  {
+    "wardNumber": 41,
+    "wardName": "Baag Farhat Afja",
+    "area": "Baag Farhat Afja",
+    "zoneNumber": 11,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Rehan Siddiqui",
+    "councillorMobile": "7587988941",
+    "population": 25430,
+    "center": [
+      23.256628,
+      77.425582
+    ]
+  },
+  {
+    "wardNumber": 42,
+    "wardName": "Maharani Laxmibai",
+    "area": "Maharani Laxmibai",
+    "zoneNumber": 8,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Aziz Uddin",
+    "councillorMobile": "7587988942",
+    "population": 23677,
+    "center": [
+      23.250852,
+      77.419833
+    ]
+  },
+  {
+    "wardNumber": 43,
+    "wardName": "Maharana Pratap",
+    "area": "Maharana Pratap",
+    "zoneNumber": 9,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Naseem Gaffur",
+    "councillorMobile": "7587988943",
+    "population": 22288,
+    "center": [
+      23.240374,
+      77.428986
+    ]
+  },
+  {
+    "wardNumber": 44,
+    "wardName": "Subhash Chandra Bose",
+    "area": "Subhash Chandra Bose",
+    "zoneNumber": 12,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Vimlesh Singh Thakur",
+    "councillorMobile": "7587988944",
+    "population": null,
+    "center": [
+      23.249395,
+      77.433495
+    ]
+  },
+  {
+    "wardNumber": 45,
+    "wardName": "Indira Gandhi",
+    "area": "Indira Gandhi",
+    "zoneNumber": 9,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mrs. Shikha Gohal",
+    "councillorMobile": "7587988945",
+    "population": 19282,
+    "center": [
+      23.223038,
+      77.435088
+    ]
+  },
+  {
+    "wardNumber": 46,
+    "wardName": "Pt. Ravishankar Shukl",
+    "area": "Pt. Ravishankar Shukl",
+    "zoneNumber": 7,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Yogendra Singh",
+    "councillorMobile": "7587988946",
+    "population": 20605,
+    "center": [
+      23.223218,
+      77.421234
+    ]
+  },
+  {
+    "wardNumber": 47,
+    "wardName": "Dr Rajendra Prasad",
+    "area": "Dr Rajendra Prasad",
+    "zoneNumber": 8,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mrs. Girja Khatik",
+    "councillorMobile": "7587988947",
+    "population": 24018,
+    "center": [
+      23.216092,
+      77.422647
+    ]
+  },
+  {
+    "wardNumber": 48,
+    "wardName": "Arera Colony",
+    "area": "Arera Colony",
+    "zoneNumber": 9,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mr. Arvind Kumar Verma",
+    "councillorMobile": "7587988948",
+    "population": 20926,
+    "center": [
+      23.204124,
+      77.425663
+    ]
+  },
+  {
+    "wardNumber": 49,
+    "wardName": "Asha Niketan",
+    "area": "Asha Niketan",
+    "zoneNumber": 9,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Babulal Yadav",
+    "councillorMobile": "7587988949",
+    "population": 19623,
+    "center": [
+      23.208747,
+      77.437185
+    ]
+  },
+  {
+    "wardNumber": 50,
+    "wardName": "Gulmohar",
+    "area": "Gulmohar",
+    "zoneNumber": 9,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mrs. Sushma Babisa",
+    "councillorMobile": "7587988950",
+    "population": 19719,
+    "center": [
+      23.196275,
+      77.440761
+    ]
+  },
+  {
+    "wardNumber": 51,
+    "wardName": "Shahpura",
+    "area": "Shahpura",
+    "zoneNumber": 7,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Snehlata Raghuwanshi",
+    "councillorMobile": "7587988951",
+    "population": 20880,
+    "center": [
+      23.194563,
+      77.428085
+    ]
+  },
+  {
+    "wardNumber": 52,
+    "wardName": "Misraud",
+    "area": "Misraud",
+    "zoneNumber": 13,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mrs. Sheela Patidar",
+    "councillorMobile": "7587988952",
+    "population": 23781,
+    "center": [
+      23.179974,
+      77.443362
+    ]
+  },
+  {
+    "wardNumber": 53,
+    "wardName": "Jaatkhedi",
+    "area": "Jaatkhedi",
+    "zoneNumber": 13,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mr. Pratap Vare",
+    "councillorMobile": "7587988953",
+    "population": 21924,
+    "center": [
+      23.175694,
+      77.469942
+    ]
+  },
+  {
+    "wardNumber": 54,
+    "wardName": "Barkatullah",
+    "area": "Barkatullah",
+    "zoneNumber": 13,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Jitendra Shukla",
+    "councillorMobile": "7587988954",
+    "population": 25940,
+    "center": [
+      23.200847,
+      77.455437
+    ]
+  },
+  {
+    "wardNumber": 55,
+    "wardName": "Bag Mugaliya",
+    "area": "Bag Mugaliya",
+    "zoneNumber": 13,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mrs. Archana Parmar",
+    "councillorMobile": "7587988955",
+    "population": 25213,
+    "center": [
+      23.194826,
+      77.478129
+    ]
+  },
+  {
+    "wardNumber": 56,
+    "wardName": "Barkheda Pathani",
+    "area": "Barkheda Pathani",
+    "zoneNumber": 14,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mr. Neeraj Singh",
+    "councillorMobile": "7587988956",
+    "population": 24770,
+    "center": [
+      23.213891,
+      77.474121
+    ]
+  },
+  {
+    "wardNumber": 57,
+    "wardName": "Saket Shakti",
+    "area": "Saket Shakti",
+    "zoneNumber": 14,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Surendra Badika",
+    "councillorMobile": "7587988957",
+    "population": 25847,
+    "center": [
+      23.219093,
+      77.448549
+    ]
+  },
+  {
+    "wardNumber": 58,
+    "wardName": "Kasturba",
+    "area": "Kasturba",
+    "zoneNumber": 12,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Rakesh Yadav",
+    "councillorMobile": "7587988958",
+    "population": 20690,
+    "center": [
+      23.235512,
+      77.440306
+    ]
+  },
+  {
+    "wardNumber": 59,
+    "wardName": "Barkheda Bhel",
+    "area": "Barkheda Bhel",
+    "zoneNumber": 12,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mrs. Anita",
+    "councillorMobile": "7587988959",
+    "population": 20402,
+    "center": [
+      23.237785,
+      77.458503
+    ]
+  },
+  {
+    "wardNumber": 60,
+    "wardName": "Govindpura",
+    "area": "Govindpura",
+    "zoneNumber": 14,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mr. B. Shakti Rao",
+    "councillorMobile": "7587988960",
+    "population": 24757,
+    "center": [
+      23.218778,
+      77.49316
+    ]
+  },
+  {
+    "wardNumber": 61,
+    "wardName": "Khajuri Kala",
+    "area": "Khajuri Kala",
+    "zoneNumber": 14,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mrs. Madhu Shivnani",
+    "councillorMobile": "7587988961",
+    "population": 21574,
+    "center": [
+      23.238177,
+      77.49618
+    ]
+  },
+  {
+    "wardNumber": 62,
+    "wardName": "Hatai Kheda",
+    "area": "Hatai Kheda",
+    "zoneNumber": 15,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mr. Rajesh Chouksey",
+    "councillorMobile": "7587988962",
+    "population": 19669,
+    "center": [
+      23.252021,
+      77.502056
+    ]
+  },
+  {
+    "wardNumber": 63,
+    "wardName": "Gautam Buddha",
+    "area": "Gautam Buddha",
+    "zoneNumber": 15,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mr. Shivlal Makoriya",
+    "councillorMobile": "7587988963",
+    "population": 25180,
+    "center": [
+      23.238833,
+      77.476368
+    ]
+  },
+  {
+    "wardNumber": 64,
+    "wardName": "Sonagiri",
+    "area": "Sonagiri",
+    "zoneNumber": 15,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mrs. Chaya Thakur",
+    "councillorMobile": "7587988964",
+    "population": 25964,
+    "center": [
+      23.267733,
+      77.487926
+    ]
+  },
+  {
+    "wardNumber": 65,
+    "wardName": "Govindpura Audhogik Kshetra",
+    "area": "Govindpura Audhogik Kshetra",
+    "zoneNumber": 16,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Shiromani Sharma",
+    "councillorMobile": "7587988965",
+    "population": 23322,
+    "center": [
+      23.266407,
+      77.450118
+    ]
+  },
+  {
+    "wardNumber": 66,
+    "wardName": "Narela Shankri",
+    "area": "Narela Shankri",
+    "zoneNumber": 15,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Jitendra Singh",
+    "councillorMobile": "7587988966",
+    "population": 21115,
+    "center": [
+      23.263078,
+      77.461059
+    ]
+  },
+  {
+    "wardNumber": 67,
+    "wardName": "Indrapuri",
+    "area": "Indrapuri",
+    "zoneNumber": 15,
+    "assemblyConstituency": "Govindpura",
+    "councillorName": "Mrs. Mamta Bai",
+    "councillorMobile": "7587988967",
+    "population": 25994,
+    "center": [
+      23.259128,
+      77.470267
+    ]
+  },
+  {
+    "wardNumber": 68,
+    "wardName": "Ayodhya Nagar",
+    "area": "Ayodhya Nagar",
+    "zoneNumber": 16,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mrs. Urmila Mourya",
+    "councillorMobile": "7587988968",
+    "population": 25697,
+    "center": [
+      23.277003,
+      77.472406
+    ]
+  },
+  {
+    "wardNumber": 69,
+    "wardName": "Guru Nanak Dev",
+    "area": "Guru Nanak Dev",
+    "zoneNumber": 12,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Suryakant Gupta",
+    "councillorMobile": "7587988969",
+    "population": 19363,
+    "center": [
+      23.257596,
+      77.430783
+    ]
+  },
+  {
+    "wardNumber": 70,
+    "wardName": "Punjabi Baag",
+    "area": "Punjabi Baag",
+    "zoneNumber": 11,
+    "assemblyConstituency": "Bhopal Madhya",
+    "councillorName": "Mr. Ashok Vaani",
+    "councillorMobile": "7587988970",
+    "population": 19809,
+    "center": [
+      23.256698,
+      77.439634
+    ]
+  },
+  {
+    "wardNumber": 71,
+    "wardName": "Dusshera Maidan Ashoka Garden",
+    "area": "Dusshera Maidan Ashoka Garden",
+    "zoneNumber": 10,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mrs. Shraddha Dubey",
+    "councillorMobile": "7587988971",
+    "population": 20706,
+    "center": [
+      23.261998,
+      77.434248
+    ]
+  },
+  {
+    "wardNumber": 72,
+    "wardName": "Rajiv Gandhi",
+    "area": "Rajiv Gandhi",
+    "zoneNumber": 16,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Vikas Patel",
+    "councillorMobile": "7587988972",
+    "population": 21958,
+    "center": [
+      23.307827,
+      77.430992
+    ]
+  },
+  {
+    "wardNumber": 73,
+    "wardName": "Bhopal Memorial Aspataal",
+    "area": "Bhopal Memorial Aspataal",
+    "zoneNumber": 16,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Raju Rathore",
+    "councillorMobile": "7587988973",
+    "population": 21555,
+    "center": [
+      23.291946,
+      77.420396
+    ]
+  },
+  {
+    "wardNumber": 74,
+    "wardName": "Bhanpur",
+    "area": "Bhanpur",
+    "zoneNumber": 16,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mrs. Shakun Singh",
+    "councillorMobile": "7587988974",
+    "population": 24680,
+    "center": [
+      23.288006,
+      77.442574
+    ]
+  },
+  {
+    "wardNumber": 75,
+    "wardName": "Badbai",
+    "area": "Badbai",
+    "zoneNumber": 17,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mrs. Reeta Vishwakarma",
+    "councillorMobile": "7587988975",
+    "population": 25733,
+    "center": [
+      23.302303,
+      77.379131
+    ]
+  },
+  {
+    "wardNumber": 76,
+    "wardName": "Chhola",
+    "area": "Chhola",
+    "zoneNumber": 17,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Shrikant Rai",
+    "councillorMobile": "7587988976",
+    "population": 25915,
+    "center": [
+      23.283769,
+      77.415902
+    ]
+  },
+  {
+    "wardNumber": 77,
+    "wardName": "Rusalli",
+    "area": "Rusalli",
+    "zoneNumber": 17,
+    "assemblyConstituency": "Bhopal Uttar",
+    "councillorName": "Mr. Danish Khan",
+    "councillorMobile": "7587988977",
+    "population": 25532,
+    "center": [
+      23.291456,
+      77.398212
+    ]
+  },
+  {
+    "wardNumber": 78,
+    "wardName": "Karond",
+    "area": "Karond",
+    "zoneNumber": 17,
+    "assemblyConstituency": "Narela",
+    "councillorName": "Mr. Mohd. Riyaaz",
+    "councillorMobile": "7587988978",
+    "population": 24917,
+    "center": [
+      23.297075,
+      77.416243
+    ]
+  },
+  {
+    "wardNumber": 79,
+    "wardName": "Navibag",
+    "area": "Navibag",
+    "zoneNumber": 17,
+    "assemblyConstituency": "Berasia (SC)",
+    "councillorName": "Mrs. Anju Rajput",
+    "councillorMobile": "7587988979",
+    "population": 25940,
+    "center": [
+      23.317664,
+      77.410061
+    ]
+  },
+  {
+    "wardNumber": 80,
+    "wardName": "Sarvadharm Kolar",
+    "area": "Sarvadharm Kolar",
+    "zoneNumber": 18,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Sunita Devi Bhadoriya",
+    "councillorMobile": "7587988980",
+    "population": 19991,
+    "center": [
+      23.186103,
+      77.409597
+    ]
+  },
+  {
+    "wardNumber": 81,
+    "wardName": "Kanhakunj",
+    "area": "Kanhakunj",
+    "zoneNumber": 19,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mrs. Babita Dongre",
+    "councillorMobile": "7587988981",
+    "population": 16578,
+    "center": [
+      23.151742,
+      77.389648
+    ]
+  },
+  {
+    "wardNumber": 82,
+    "wardName": "Danish Kunj",
+    "area": "Danish Kunj",
+    "zoneNumber": 18,
+    "assemblyConstituency": "Bhopal Dakshin-Paschim",
+    "councillorName": "Mrs. Jyoti Mishra",
+    "councillorMobile": "7587988982",
+    "population": 20365,
+    "center": [
+      23.178871,
+      77.423334
+    ]
+  },
+  {
+    "wardNumber": 83,
+    "wardName": "Sankhedi",
+    "area": "Sankhedi",
+    "zoneNumber": 18,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mr. Ravindra Yati",
+    "councillorMobile": "7587988983",
+    "population": 20255,
+    "center": [
+      23.162906,
+      77.433148
+    ]
+  },
+  {
+    "wardNumber": 84,
+    "wardName": "Ratanpur Sadak",
+    "area": "Ratanpur Sadak",
+    "zoneNumber": 19,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mrs. Shobhna Maran",
+    "councillorMobile": "7587988984",
+    "population": 18334,
+    "center": [
+      23.136335,
+      77.452117
+    ]
+  },
+  {
+    "wardNumber": 85,
+    "wardName": "Katara",
+    "area": "Katara",
+    "zoneNumber": 19,
+    "assemblyConstituency": "Huzur",
+    "councillorName": "Mrs. Ruma Rajput",
+    "councillorMobile": "7587988985",
+    "population": 15108,
+    "center": [
+      23.155203,
+      77.49794
+    ]
+  }
+]

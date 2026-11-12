@@ -56,11 +56,11 @@ const PREVIEW = [
 ];
 
 export default function Landing() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isOfficer } = useAuth();
   const [contactStatus, setContactStatus] = useState("");
 
   // A signed-in visitor never sees the public page again.
-  if (user) return <Navigate to={isAdmin ? "/admin" : "/dashboard"} replace />;
+  if (user) return <Navigate to={isAdmin ? "/admin" : isOfficer ? "/officer/dashboard" : "/dashboard"} replace />;
 
   function sendMessage(event) {
     event.preventDefault();

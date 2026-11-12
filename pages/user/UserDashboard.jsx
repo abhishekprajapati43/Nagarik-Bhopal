@@ -5,6 +5,7 @@ import StatusBadge from "../../components/StatusBadge";
 import { useAuth } from "../../context/AuthContext";
 import { useService } from "../../hooks/useService";
 import { call } from "../../utils/api";
+import { complaintTypeLabel } from "../../utils/complaint";
 import { formatDate, timeAgo } from "../../utils/format";
 
 const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "neighbour";
@@ -77,7 +78,7 @@ export default function UserDashboard() {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Waste</th>
+                    <th>Issue</th>
                     <th>Ward</th>
                     <th>Status</th>
                     <th>Days</th>
@@ -89,7 +90,7 @@ export default function UserDashboard() {
                   {data.recent.map((complaint) => (
                     <tr key={complaint.id}>
                       <td>#{complaint.id.slice(-6)}</td>
-                      <td>{complaint.wasteType}</td>
+                      <td>{complaintTypeLabel(complaint)}</td>
                       <td>{complaint.ward}</td>
                       <td><StatusBadge status={complaint.status} /></td>
                       <td>{complaint.days}</td>

@@ -1,0 +1,142 @@
+/* Sanitation officer console. Reuses the admin shell; only work-specific
+   pieces and the extra status colours live here. */
+
+.officer-shell .status {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 10px;
+  white-space: nowrap;
+}
+
+.officer-shell .status.pending {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.officer-shell .status.assigned {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.officer-shell .status.in-progress {
+  background: #2563eb;
+  color: #fff;
+}
+
+.officer-shell .status.resolved {
+  background: #16a34a;
+  color: #fff;
+}
+
+.officer-shell .status.citizen-verification {
+  background: #0891b2;
+  color: #fff;
+}
+
+.officer-shell .status.closed {
+  background: #214b3e;
+  color: #f6f3ea;
+}
+
+.officer-shell .status.reopened {
+  background: #dc2626;
+  color: #fff;
+}
+
+.officer-shell .status.rejected {
+  background: #64748b;
+  color: #fff;
+}
+
+.officer-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 1.4rem;
+}
+
+.officer-photo-grid figure {
+  margin: 0;
+  padding: 0.65rem;
+  border: 1px solid #e3e9e4;
+  border-radius: 12px;
+  background: #fafbf9;
+}
+
+.officer-photo-grid figcaption {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #48604f;
+  margin-bottom: 0.5rem;
+}
+
+.officer-photo-grid img,
+.officer-photo-empty {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+.officer-photo-empty {
+  display: grid;
+  place-items: center;
+  background: #eef1ec;
+  color: #6b7a70;
+  font-size: 0.82rem;
+}
+
+.officer-photo-grid input[type="file"] {
+  width: 100%;
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+}
+
+.officer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.officer-actions .button {
+  padding: 0.62rem 1.1rem;
+}
+
+.officer-timeline {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0 0 0 1rem;
+  border-left: 2px solid #e2e8e3;
+}
+
+.officer-timeline li {
+  position: relative;
+  padding: 0 0 1rem 1rem;
+}
+
+.officer-timeline li::before {
+  content: "";
+  position: absolute;
+  left: -1.42rem;
+  top: 0.45rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #214b3e;
+}
+
+.officer-timeline li p {
+  margin: 0.35rem 0;
+  color: #33443b;
+}
+
+.officer-timeline li small {
+  color: #6b7a70;
+}

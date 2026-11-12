@@ -5,6 +5,7 @@ import StatsCard from "../../components/StatsCard";
 import StatusBadge from "../../components/StatusBadge";
 import { useService } from "../../hooks/useService";
 import { call } from "../../utils/api";
+import { complaintTypeLabel } from "../../utils/complaint";
 import { formatDate } from "../../utils/format";
 
 export default function AdminDashboard() {
@@ -29,6 +30,7 @@ export default function AdminDashboard() {
         <div className="admin-stats">
           <StatsCard title="Total Complaints" value={totals?.complaints ?? "—"} color="#2563eb" />
           <StatsCard title="Pending" value={totals?.pending ?? "—"} color="#f59e0b" />
+          <StatsCard title="Assigned" value={totals?.assigned ?? "—"} color="#7c3aed" />
           <StatsCard title="In Progress" value={totals?.inProgress ?? "—"} color="#dc2626" />
           <StatsCard title="Resolved" value={totals?.resolved ?? "—"} color="#16a34a" />
         </div>
@@ -50,10 +52,15 @@ export default function AdminDashboard() {
         </section>
 
         <section className="admin-card">
-          <h2>Ward load</h2>
-          <BarChart data={(data?.byWard || []).slice(0, 6)} emptyLabel="No complaints yet" />
+          <h2>Complaints by category</h2>
+          <BarChart data={data?.byCategory || []} emptyLabel="No complaints yet" />
         </section>
       </div>
+
+      <section className="admin-card">
+        <h2>Ward load</h2>
+        <BarChart data={(data?.byWard || []).slice(0, 6)} emptyLabel="No complaints yet" />
+      </section>
 
       <section className="admin-card">
         <h2>
@@ -70,7 +77,7 @@ export default function AdminDashboard() {
                 <tr>
                   <th>ID</th>
                   <th>Reporter</th>
-                  <th>Waste</th>
+                  <th>Issue</th>
                   <th>Ward</th>
                   <th>Priority</th>
                   <th>Days</th>
@@ -84,7 +91,7 @@ export default function AdminDashboard() {
                       <Link to={`/complaint/${complaint.id}`}>#{complaint.id.slice(-6)}</Link>
                     </td>
                     <td>{complaint.userName}</td>
-                    <td>{complaint.wasteType}</td>
+                    <td>{complaintTypeLabel(complaint)}</td>
                     <td>{complaint.ward}</td>
                     <td>{complaint.priority}</td>
                     <td>{complaint.days}</td>
@@ -108,7 +115,7 @@ export default function AdminDashboard() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Waste</th>
+                  <th>Issue</th>
                   <th>Ward</th>
                   <th>Votes</th>
                   <th>Reported</th>
@@ -118,7 +125,7 @@ export default function AdminDashboard() {
                 {data.topComplaints.map((complaint) => (
                   <tr key={complaint.id}>
                     <td><Link to={`/complaint/${complaint.id}`}>#{complaint.id.slice(-6)}</Link></td>
-                    <td>{complaint.wasteType}</td>
+                    <td>{complaintTypeLabel(complaint)}</td>
                     <td>{complaint.ward}</td>
                     <td>{complaint.upvotes}</td>
                     <td>{formatDate(complaint.createdAt)}</td>

@@ -12,6 +12,11 @@ const readPayload = async (payload) => {
     optionalText(payload.designation, { field: "Designation", max: 60 }) || "Ward Corporator";
   const phone = phoneNumber(payload.phone);
   const email = payload.email ? emailAddress(payload.email) : "";
+  const mlaName = optionalText(payload.mlaName, { field: "MLA name", max: 80 });
+  const officeAddress = optionalText(payload.officeAddress, {
+    field: "Office address",
+    max: 200,
+  });
 
   let wardId = "";
   if (payload.wardId) {
@@ -20,7 +25,7 @@ const readPayload = async (payload) => {
     wardId = ward.id;
   }
 
-  return { name, designation, phone, email, wardId };
+  return { name, designation, phone, email, mlaName, officeAddress, wardId };
 };
 
 export const list = async () => {

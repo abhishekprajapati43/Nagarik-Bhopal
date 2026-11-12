@@ -66,7 +66,10 @@ app.use(
   "/assets",
   express.static(path.join(ROOT_DIR, "assets"), {
     index: false,
-    maxAge: "1h",
+    // The bundle filenames are not content-hashed, so a long cache would keep
+    // serving an older build after a redeploy. Revalidate with ETag instead.
+    maxAge: 0,
+    etag: true,
     dotfiles: "ignore",
   })
 );

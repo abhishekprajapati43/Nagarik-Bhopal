@@ -4,6 +4,7 @@ import { AppError, ERROR_CODES } from "../shared/errors";
 import { createLocalStorageAdapter } from "../shared/localAdapter";
 import { dispatch } from "../shared/rpc";
 import { createService } from "../shared/service";
+import { emitLive } from "./live";
 import { getToken } from "./storage";
 
 /**
@@ -16,6 +17,31 @@ import { getToken } from "./storage";
  */
 
 const localService = createService(createLocalStorageAdapter(), { secret: DEMO_JWT_SECRET });
+
+/** Methods that only read data; they must not trigger a live refresh. */
+const READ_METHODS = new Set([
+  "me",
+  "getComplaint",
+  "listComplaints",
+  "myStats",
+  "analytics",
+  "listWards",
+  "getWard",
+  "wardHeatmap",
+  "listRepresentatives",
+  "listOfficers",
+  "listUsers",
+  "listNotifications",
+  "getSettings",
+  "listEmailOutbox",
+  "listCitizenVerifications",
+  "listVerificationAudit",
+  "officerDashboard",
+  "officerProfile",
+  "listOfficerComplaints",
+  "getOfficerComplaint",
+  "checkDuplicates",
+]);
 
 const remoteCall = async (method, args) => {
   let response;
@@ -45,7 +71,16 @@ const remoteCall = async (method, args) => {
   return payload.result;
 };
 
-export const call = (method, args = {}) =>
-  USE_REMOTE_API ? remoteCall(method, args) : dispatch(localService, method, args, getToken());
+export const call = async (method, args = {}) => {
+  const result = USE_REMOTE_API
+    ? await remoteCall(method, args)
+    : await dispatch(localService, method, args, getToken());
+
+  // Reads never publish; any successful write refreshes the screens that have
+  // mounted a live subscription (see hooks/useService.js).
+  if (!READ_METHODS.has(method)) emitLive(method);
+
+  return result;
+};
 
 export const dataMode = USE_REMOTE_API ? "api" : "device";

@@ -6,6 +6,7 @@ const router = Router();
 
 // Register needs the ward list before the visitor has an account.
 router.get("/", optionalAuth, controller.list);
+router.get("/heatmap", controller.heatmap);
 router.post("/", authenticate, requireAdmin, controller.save);
 router.put("/:id", authenticate, requireAdmin, controller.save);
 router.delete("/:id", authenticate, requireAdmin, controller.remove);

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ComplaintCard from "../components/ComplaintCard";
+import { CategorySelect, IssueSelect } from "../components/ComplaintCategoryFields";
 import { useService } from "../hooks/useService";
-import { STATUS_LIST, WASTE_TYPES } from "../shared/constants";
+import { STATUS_LIST } from "../shared/constants";
 import { call } from "../utils/api";
 
 /**
@@ -12,7 +13,12 @@ import { call } from "../utils/api";
 export default function Complaints({ scope = "all" }) {
   const mine = scope === "mine";
   const location = useLocation();
-  const [filters, setFilters] = useState({ status: "", wasteType: "", search: "" });
+  const [filters, setFilters] = useState({
+    status: "",
+    complaintCategory: "",
+    complaintType: "",
+    search: "",
+  });
   const [page, setPage] = useState(1);
 
   const load = useCallback(
@@ -22,7 +28,8 @@ export default function Complaints({ scope = "all" }) {
         page,
         limit: 9,
         status: filters.status,
-        wasteType: filters.wasteType,
+        complaintCategory: filters.complaintCategory,
+        complaintType: filters.complaintType,
         search: filters.search,
       }),
     [scope, page, filters]
@@ -33,9 +40,12 @@ export default function Complaints({ scope = "all" }) {
   // Any filter change should take the reader back to the first page.
   useEffect(() => {
     setPage(1);
-  }, [filters.status, filters.wasteType, filters.search, scope]);
+  }, [filters.status, filters.complaintCategory, filters.complaintType, filters.search, scope]);
 
   const update = (field, value) => setFilters((current) => ({ ...current, [field]: value }));
+
+  const updateCategory = (complaintCategory) =>
+    setFilters((current) => ({ ...current, complaintCategory, complaintType: "" }));
   const items = data?.items || [];
   const statusCounts = data?.statusCounts || {};
   const totalCount = Object.values(statusCounts).reduce((total, count) => total + count, 0);
@@ -63,7 +73,7 @@ export default function Complaints({ scope = "all" }) {
       <div className="filter-bar">
         <input
           type="search"
-          placeholder="Search by address, ward or complaint id"
+          placeholder="Search by issue, category, address or complaint id"
           value={filters.search}
           onChange={(event) => update("search", event.target.value)}
           aria-label="Search complaints"
@@ -82,16 +92,13 @@ export default function Complaints({ scope = "all" }) {
           ))}
         </select>
 
-        <select
-          value={filters.wasteType}
-          onChange={(event) => update("wasteType", event.target.value)}
-          aria-label="Filter by waste type"
-        >
-          <option value="">All waste types</option>
-          {WASTE_TYPES.map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
+        <CategorySelect value={filters.complaintCategory} onChange={updateCategory} />
+
+        <IssueSelect
+          category={filters.complaintCategory}
+          value={filters.complaintType}
+          onChange={(value) => update("complaintType", value)}
+        />
       </div>
 
       <div className="chip-row">

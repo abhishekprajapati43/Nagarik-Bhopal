@@ -7,12 +7,14 @@ import { call } from "../utils/api";
 import { formatDate } from "../utils/format";
 
 export default function Profile() {
-  const { user, updateProfile, logout } = useAuth();
+  const { user, updateProfile, submitAadhaar, logout } = useAuth();
   const navigate = useNavigate();
   const [detailsMessage, setDetailsMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
+  const [aadhaarMessage, setAadhaarMessage] = useState("");
   const [savingDetails, setSavingDetails] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
+  const [savingAadhaar, setSavingAadhaar] = useState(false);
   const [wardId, setWardId] = useState(user?.wardId || "");
 
   // Keep the controlled select in sync with the saved profile (the ward list
@@ -24,6 +26,13 @@ export default function Profile() {
   const loadWards = useCallback(() => call("listWards"), []);
   const { data: wardsData } = useService(loadWards);
   const wards = wardsData?.items || [];
+  const verificationStatus = user?.verificationStatus || "Pending";
+  const verificationBadge =
+    verificationStatus === "Verified"
+      ? "pill pill-ok"
+      : verificationStatus === "Rejected"
+        ? "pill pill-bad"
+        : "pill pill-warn";
 
   async function saveDetails(event) {
     event.preventDefault();
@@ -37,6 +46,25 @@ export default function Profile() {
     });
     setSavingDetails(false);
     setDetailsMessage(result.ok ? "Profile updated." : result.message);
+  }
+
+  async function saveAadhaar(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const digits = String(data.get("aadhaarNumber") ?? "").replace(/[\s-]/g, "");
+
+    if (!/^\d{12}$/.test(digits)) {
+      setAadhaarMessage("Aadhaar number must contain exactly 12 digits.");
+      return;
+    }
+
+    setSavingAadhaar(true);
+    const result = await submitAadhaar({ aadhaarNumber: digits });
+    setSavingAadhaar(false);
+    setAadhaarMessage(result.message);
+
+    if (result.ok) form.reset();
   }
 
   async function savePassword(event) {
@@ -102,6 +130,74 @@ export default function Profile() {
         </section>
 
         <aside className="profile-side">
+          <section className="profile-card identity-card">
+            <h2>Identity Verification</h2>
+
+            <p className="identity-status">
+              <span>Aadhaar status</span>
+              <span className={verificationBadge}>{verificationStatus}</span>
+            </p>
+
+            <p>
+              <b>Aadhaar number</b>
+              <br />
+              {user?.aadhaarMasked || "XXXX XXXX ----"}
+            </p>
+
+            {user?.aadhaarVerified && user?.aadhaarVerifiedAt && (
+              <p><b>Verified on</b><br />{formatDate(user.aadhaarVerifiedAt)}</p>
+            )}
+
+            {verificationStatus === "Pending" && (
+              <p className="identity-note">
+                Your Aadhaar is waiting for city office review. You can submit complaints
+                once it is verified.
+              </p>
+            )}
+
+            {verificationStatus === "Rejected" && (
+              <p className="identity-note">
+                Your Aadhaar verification was rejected.
+                {user?.verificationRemarks ? ` Reason: ${user.verificationRemarks}` : ""}
+                {" "}You can correct the number and resubmit below.
+              </p>
+            )}
+
+            {verificationStatus === "Verified" ? (
+              <p className="identity-note">
+                Your identity is verified. Only the last four digits are shown here.
+              </p>
+            ) : (
+              <form onSubmit={saveAadhaar} className="auth-form" noValidate>
+                <label>Aadhaar number
+                  <input
+                    name="aadhaarNumber"
+                    required
+                    autoComplete="off"
+                    inputMode="numeric"
+                    maxLength="14"
+                    placeholder="12-digit Aadhaar number"
+                  />
+                </label>
+                <p className="label-hint">
+                  Stored encrypted. The city office and you will only see XXXX XXXX 1234.
+                </p>
+
+                {aadhaarMessage && (
+                  <p className="form-message" role="status">{aadhaarMessage}</p>
+                )}
+
+                <button className="button button-dark" type="submit" disabled={savingAadhaar}>
+                  {savingAadhaar
+                    ? "Submitting…"
+                    : verificationStatus === "Rejected"
+                      ? "Resubmit Aadhaar"
+                      : "Submit for verification"}
+                </button>
+              </form>
+            )}
+          </section>
+
           <section className="profile-card">
             <h2>Account</h2>
             <p><b>Email</b><br />{user?.email}</p>

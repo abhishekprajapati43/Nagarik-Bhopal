@@ -1,18 +1,20 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useAuth } from "../../context/AuthContext";
 import { initials } from "../../utils/format";
 import "./admin.css";
 
 const LINKS = [
-  { to: "/admin", label: "Dashboard", icon: "▦", end: true },
-  { to: "/admin/complaints", label: "Complaints", icon: "🗑" },
-  { to: "/admin/users", label: "Users", icon: "👥" },
-  { to: "/admin/wards", label: "Wards", icon: "🗺" },
-  { to: "/admin/representatives", label: "Representatives", icon: "🏛" },
-  { to: "/admin/analytics", label: "Analytics", icon: "📊" },
-  { to: "/admin/reports", label: "Reports", icon: "📄" },
-  { to: "/admin/notifications", label: "Notifications", icon: "🔔" },
-  { to: "/admin/settings", label: "Settings", icon: "⚙" },
+  { to: "/admin", label: "Dashboard", end: true },
+  { to: "/admin/complaints", label: "Complaints" },
+  { to: "/admin/users", label: "Users" },
+  { to: "/admin/citizen-verification", label: "Citizen Verification" },
+  { to: "/admin/wards", label: "Wards" },
+  { to: "/admin/representatives", label: "Representatives" },
+  { to: "/admin/analytics", label: "Analytics" },
+  { to: "/admin/reports", label: "Reports" },
+  { to: "/admin/notifications", label: "Notifications" },
+  { to: "/admin/settings", label: "Settings" },
 ];
 
 export default function AdminLayout() {
@@ -20,45 +22,38 @@ export default function AdminLayout() {
   const navigate = useNavigate();
 
   return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
-        <Link className="admin-brand" to="/admin">
-          <span className="brand-mark">N</span>
-          <span>
-            NAGARIK
-            <small>ADMIN CONSOLE</small>
-          </span>
-        </Link>
-
-        <nav className="admin-nav">
-          {LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.end}>
-              <span className="admin-nav-icon" aria-hidden="true">{link.icon}</span>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="admin-sidebar-footer">
-          <Link to="/">← Back to public site</Link>
-          <span>Signed in as {user?.email}</span>
-        </div>
-      </aside>
-
-      <div className="admin-main">
-        <header className="admin-topbar">
-          <div>
-            <h1>City Operations</h1>
-            <small>Complaints, wards and residents of Bhopal</small>
-          </div>
-
-          <div className="admin-user">
-            <span className="admin-avatar" aria-hidden="true">{initials(user?.name)}</span>
+    <div className="admin-shell console-shell">
+      <header className="console-header">
+        <div className="console-header-inner">
+          <Link className="console-brand" to="/admin" aria-label="Nagarik admin console">
+            <span className="brand-mark">N</span>
             <span>
-              <b>{user?.name}</b>
-              <br />
-              <small>{user?.role === "admin" ? "Administrator" : "Staff"}</small>
+              NAGARIK
+              <small>ADMIN CONSOLE</small>
             </span>
+          </Link>
+
+          <nav className="console-nav" aria-label="Admin sections">
+            {LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} end={link.end}>
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="console-actions">
+            <Link className="console-public" to="/">Public site</Link>
+
+            <LanguageSwitcher compact />
+
+            <span className="console-user">
+              <span className="admin-avatar" aria-hidden="true">{initials(user?.name)}</span>
+              <span>
+                <b>{user?.name}</b>
+                <small>{user?.role === "admin" ? "Administrator" : "Staff"}</small>
+              </span>
+            </span>
+
             <button
               type="button"
               className="small-button"
@@ -70,7 +65,14 @@ export default function AdminLayout() {
               Sign out
             </button>
           </div>
-        </header>
+        </div>
+      </header>
+
+      <div className="admin-main">
+        <div className="console-page-head">
+          <h1>City Operations</h1>
+          <small>Complaints, wards and residents of Bhopal</small>
+        </div>
 
         <main className="admin-content">
           <Outlet />

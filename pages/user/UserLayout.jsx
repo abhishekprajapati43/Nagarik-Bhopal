@@ -1,47 +1,52 @@
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { initials } from "../../utils/format";
 import "../admin/admin.css";
 import "./user.css";
 
 /**
- * Resident workspace. It deliberately reuses the administrator shell classes
- * from admin.css so both dashboards share the same spacing, colours, cards and
- * responsive behaviour without touching the admin console itself.
+ * Resident workspace. It uses the same header-first shell as the admin and
+ * officer consoles (and the public home page): the section links sit in a
+ * sticky top header instead of a left sidebar. Spacing, colours, cards and
+ * tables still come from admin.css.
  */
 const LINKS = [
-  { to: "/dashboard", label: "Dashboard", icon: "▦", end: true },
-  { to: "/report", label: "Register Complaint", icon: "📝" },
-  { to: "/my-complaints", label: "My Complaints", icon: "🗑" },
-  { to: "/complaint-status", label: "Complaint Status", icon: "◷" },
-  { to: "/notifications", label: "Notifications", icon: "🔔" },
-  { to: "/profile", label: "Profile", icon: "👤" },
-  { to: "/settings", label: "Settings", icon: "⚙" },
+  { to: "/dashboard", key: "user.dashboard", icon: "▦", end: true },
+  { to: "/report", key: "user.registerComplaint", icon: "📝" },
+  { to: "/my-complaints", key: "user.myComplaints", icon: "🗑" },
+  { to: "/complaint-status", key: "user.complaintStatus", icon: "◷" },
+  { to: "/notifications", key: "user.notifications", icon: "🔔" },
+  { to: "/profile", key: "user.profile", icon: "👤" },
+  { to: "/settings", key: "user.settings", icon: "⚙" },
 ];
 
 const HEADINGS = {
-  "/dashboard": ["My Dashboard", "Your reports and city updates at a glance"],
-  "/report": ["Register a Complaint", "Tell the city team what needs attention"],
-  "/my-complaints": ["My Complaints", "Every issue you have reported"],
-  "/complaint-status": ["Complaint Status", "Track how your reports are progressing"],
-  "/notifications": ["Notifications", "Updates about your reports and announcements"],
-  "/profile": ["Profile", "Your account and contact details"],
-  "/settings": ["Settings", "Account preferences and password"],
+  "/dashboard": ["user.dashboard", "Your reports and city updates at a glance"],
+  "/report": ["user.registerComplaint", "Tell the city team what needs attention"],
+  "/my-complaints": ["user.myComplaints", "Every issue you have reported"],
+  "/complaint-status": ["user.complaintStatus", "Track how your reports are progressing"],
+  "/notifications": ["user.notifications", "Updates about your reports and announcements"],
+  "/profile": ["user.profile", "Your account and contact details"],
+  "/settings": ["user.settings", "Account preferences and password"],
 };
 
 const normalise = (pathname) => pathname.replace(/\/+$/, "") || "/";
 
 export default function UserLayout() {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const currentPath = normalise(pathname);
   const isComplaintDetail = currentPath.startsWith("/complaint/");
-  const [title, subtitle] =
+  const [titleKey, subtitle] =
     HEADINGS[currentPath] ||
     (isComplaintDetail
-      ? ["Complaint Details", "Full details of this civic report"]
+      ? ["details.title", "Full details of this civic report"]
       : HEADINGS["/dashboard"]);
+  const title = t(titleKey);
 
   // Signing out clears the stored token and user, then returns to the public
   // home page. Route guards keep dashboard pages closed if the visitor uses
@@ -52,74 +57,53 @@ export default function UserLayout() {
   };
 
   return (
-    <div className="admin-shell user-shell">
-      <aside className="admin-sidebar">
-        <Link className="admin-brand" to="/">
-          <span className="brand-mark">N</span>
-          <span>
-            NAGARIK
-            <small>RESIDENT PORTAL</small>
-          </span>
-        </Link>
-
-        <nav className="admin-nav">
-          {LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.end}>
-              <span className="admin-nav-icon" aria-hidden="true">{link.icon}</span>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="admin-sidebar-footer user-sidebar-footer">
-          <Link to="/">← Back to public site</Link>
-          <span>Signed in as {user?.email}</span>
-
-          {/* Pinned to the bottom of the resident sidebar on desktop. */}
-          <button
-            type="button"
-            className="user-logout"
-            onClick={signOut}
-            title="Log out"
-            aria-label="Log out"
-          >
-            <span className="user-logout-icon" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                <polyline points="16 17 21 12 16 7" />
-                <line x1="21" y1="12" x2="9" y2="12" />
-              </svg>
+    <div className="admin-shell console-shell user-shell">
+      <header className="console-header">
+        <div className="console-header-inner">
+          <Link className="console-brand" to="/" aria-label="Nagarik resident portal">
+            <span className="brand-mark">N</span>
+            <span>
+              NAGARIK
+              <small>RESIDENT PORTAL</small>
             </span>
-            Logout
-          </button>
+          </Link>
+
+          <nav className="console-nav" aria-label="Resident sections">
+            {LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} end={link.end}>
+                <span className="user-nav-icon" aria-hidden="true">{link.icon}</span>
+                {t(link.key)}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="console-actions">
+            <Link className="console-public" to="/">
+              Public site
+            </Link>
+
+            <LanguageSwitcher compact />
+
+            <span className="console-user">
+              <span className="admin-avatar" aria-hidden="true">{initials(user?.name)}</span>
+              <span>
+                <b>{user?.name}</b>
+                <small>{t("user.resident")}</small>
+              </span>
+            </span>
+
+            <button type="button" className="small-button" onClick={signOut}>
+              Sign out
+            </button>
+          </div>
         </div>
-      </aside>
+      </header>
 
       <div className="admin-main">
-        <header className="admin-topbar">
-          <div>
-            <h1>{title}</h1>
-            <small>{subtitle}</small>
-          </div>
-
-          <div className="admin-user">
-            <span className="admin-avatar" aria-hidden="true">{initials(user?.name)}</span>
-            <span>
-              <b>{user?.name}</b>
-              <br />
-              <small>Resident</small>
-            </span>
-          </div>
-        </header>
+        <div className="console-page-head">
+          <h1>{title}</h1>
+          <small>{subtitle}</small>
+        </div>
 
         <main className="admin-content">
           <Outlet />

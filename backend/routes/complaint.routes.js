@@ -13,6 +13,7 @@ router.post("/", controller.create);
 router.get("/:id", controller.get);
 router.post("/:id/upvote", controller.upvote);
 router.post("/:id/comments", controller.addComment);
+router.post("/:id/verification", controller.verify);
 router.patch("/:id/status", requireAdmin, controller.updateStatus);
 router.patch("/:id/assignment", requireAdmin, controller.assign);
 

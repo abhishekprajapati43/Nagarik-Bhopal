@@ -41,6 +41,19 @@
   color: #3d4a44;
 }
 
+.complaint-body p.complaint-category {
+  display: inline-block;
+  margin: 0 0 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #eef3ef;
+  color: #214b3e;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .status {
   padding: 6px 14px;
   border-radius: 999px;
@@ -54,6 +67,11 @@
   color: #fff;
 }
 
+.accepted {
+  background: #0d9488;
+  color: #fff;
+}
+
 .resolved {
   background: #16a34a;
   color: #fff;
@@ -61,6 +79,31 @@
 
 .in-progress {
   background: #2563eb;
+  color: #fff;
+}
+
+.assigned {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.citizen-verification {
+  background: #0891b2;
+  color: #fff;
+}
+
+.closed {
+  background: #214b3e;
+  color: #f6f3ea;
+}
+
+.reopened {
+  background: #dc2626;
+  color: #fff;
+}
+
+.rejected {
+  background: #64748b;
   color: #fff;
 }
 

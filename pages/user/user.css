@@ -1,49 +1,19 @@
 /* Small additions on top of admin.css for the resident workspace. The shell,
-   sidebar, topbar, cards and tables all come from the admin stylesheet. */
+   header, cards and tables all come from the admin stylesheet. */
 
-/* ---------- resident sidebar logout ---------- */
+/* ---------- resident header navigation ---------- */
 
-/* The sidebar footer already has margin-top:auto inside the 100vh sticky
-   sidebar, so this block stays pinned to the bottom edge of the viewport. */
-.user-sidebar-footer {
-  gap: 0.45rem;
-}
-
-.user-logout {
-  display: flex;
+/* The resident section links sit in the sticky console header, so each one
+   keeps a small leading icon like the old sidebar entries did. */
+.user-shell .console-nav a {
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  width: 100%;
-  margin-top: 0.55rem;
-  padding: 0.6rem 0.7rem;
-  border: 1px solid rgba(246, 243, 234, 0.16);
-  border-radius: 10px;
-  background: rgba(246, 243, 234, 0.05);
-  color: rgba(246, 243, 234, 0.86);
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  gap: 0.35rem;
 }
 
-.user-logout:hover,
-.user-logout:focus-visible {
-  background: rgba(246, 243, 234, 0.13);
-  border-color: rgba(246, 243, 234, 0.34);
-  color: #fff;
-  outline: none;
-}
-
-.user-logout-icon {
-  width: 18px;
-  display: grid;
-  place-items: center;
-}
-
-.user-logout svg {
-  display: block;
+.user-nav-icon {
+  font-size: 0.82rem;
+  line-height: 1;
 }
 
 .user-welcome {
@@ -134,51 +104,9 @@
   margin: 0 auto;
 }
 
-/* On small screens the sidebar becomes a horizontal bar. Keep the logout
-   control at the end of that bar, but hide the account meta text. */
-@media (max-width: 960px) {
-  .user-shell .admin-nav {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .user-shell .admin-sidebar-footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 0 0 auto;
-    padding-top: 0;
-    border-top: 0;
-  }
-
-  .user-shell .admin-sidebar-footer > a,
-  .user-shell .admin-sidebar-footer > span {
-    display: none;
-  }
-
-  .user-shell .user-logout {
-    width: auto;
-    margin-top: 0;
-    padding: 0.45rem 0.75rem;
-    font-size: 0.8rem;
-    white-space: nowrap;
-  }
-}
-
+/* On small screens the header links scroll horizontally on their own row,
+   so the brand, language switcher and sign-out stay on the top row. */
 @media (max-width: 640px) {
-  /* Give the resident navigation its own full-width row so the seven menu
-     items stay readable while the brand and logout share the top row. */
-  .user-shell .admin-sidebar {
-    flex-wrap: wrap;
-    row-gap: 0.5rem;
-  }
-
-  .user-shell .admin-nav {
-    order: 3;
-    flex: 1 0 100%;
-    width: 100%;
-  }
-
   .user-welcome {
     align-items: flex-start;
   }

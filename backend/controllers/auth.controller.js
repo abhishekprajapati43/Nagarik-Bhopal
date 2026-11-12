@@ -13,10 +13,18 @@ export const adminLogin = asyncHandler(async (req, res) =>
   sendOk(res, await auth.login(req.body, { admin: true, context: getRequestContext(req) }))
 );
 
+export const officerLogin = asyncHandler(async (req, res) =>
+  sendOk(res, await auth.login(req.body, { officer: true, context: getRequestContext(req) }))
+);
+
 export const me = asyncHandler(async (req, res) => sendOk(res, await auth.me(req.user)));
 
 export const updateProfile = asyncHandler(async (req, res) =>
   sendOk(res, await auth.updateProfile(req.user, req.body))
+);
+
+export const submitAadhaar = asyncHandler(async (req, res) =>
+  sendOk(res, await auth.submitAadhaar(req.user, req.body, getRequestContext(req)))
 );
 
 export const changePassword = asyncHandler(async (req, res) =>

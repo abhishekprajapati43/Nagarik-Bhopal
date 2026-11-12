@@ -20,6 +20,18 @@ export default function Register() {
     const data = new FormData(event.currentTarget);
     const password = String(data.get("password"));
     const confirmation = String(data.get("confirmPassword"));
+    const aadhaarDigits = String(data.get("aadhaarNumber") ?? "").replace(/[\s-]/g, "");
+    const mobileDigits = String(data.get("phone") ?? "").replace(/\D/g, "").slice(-10);
+
+    if (mobileDigits.length !== 10) {
+      setMessage("Enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    if (!/^\d{12}$/.test(aadhaarDigits)) {
+      setMessage("Aadhaar number must contain exactly 12 digits.");
+      return;
+    }
 
     if (password !== confirmation) {
       setMessage("The two passwords do not match.");
@@ -32,6 +44,7 @@ export default function Register() {
       name: data.get("name"),
       email: data.get("email"),
       phone: data.get("phone"),
+      aadhaarNumber: aadhaarDigits,
       wardId: data.get("wardId"),
       password,
     });
@@ -53,15 +66,36 @@ export default function Register() {
         <p>Create an account to report issues and follow them until they are fixed.</p>
 
         <form onSubmit={submit} className="auth-form" noValidate>
-          <label>Your name
+          <label>Full name
             <input name="name" required autoComplete="name" minLength="2" maxLength="60" placeholder="Full name" />
           </label>
-          <label>Email address
-            <input name="email" type="email" required autoComplete="email" placeholder="you@example.com" />
+          <label>Mobile number
+            <input
+              name="phone"
+              type="tel"
+              required
+              autoComplete="tel"
+              inputMode="numeric"
+              placeholder="+91 98765 43210"
+            />
           </label>
-          <label>Phone <span className="label-hint">optional</span>
-            <input name="phone" type="tel" autoComplete="tel" placeholder="+91 98765 43210" />
+          <label>Email address <span className="label-hint">optional</span>
+            <input name="email" type="email" autoComplete="email" placeholder="you@example.com" />
           </label>
+          <label>Aadhaar number
+            <input
+              name="aadhaarNumber"
+              required
+              autoComplete="off"
+              inputMode="numeric"
+              maxLength="14"
+              placeholder="12-digit Aadhaar number"
+              aria-describedby="aadhaar-hint"
+            />
+          </label>
+          <p className="label-hint" id="aadhaar-hint">
+            Exactly 12 digits. Stored encrypted and shown only as XXXX XXXX 1234.
+          </p>
           <label>Your ward
             <select name="wardId" value={wardId} onChange={(event) => setWardId(event.target.value)}>
               <option value="">Select your ward</option>

@@ -1,4 +1,5 @@
 import { AppError, ERROR_CODES } from "../../shared/errors.js";
+import { EMAIL_TEMPLATES } from "../../shared/constants.js";
 import { emailAddress, requiredText } from "../../shared/validation.js";
 import * as settings from "../repositories/settings.repository.js";
 import * as audit from "../repositories/audit.repository.js";
@@ -26,6 +27,18 @@ export const save = async (actor, payload = {}, context = {}) => {
     throw new AppError(ERROR_CODES.VALIDATION, "SLA days must be a whole number from 1 to 30.");
   }
 
+  const emailTemplates = {};
+
+  for (const key of Object.keys(EMAIL_TEMPLATES)) {
+    const entry = next.emailTemplates?.[key];
+    if (!entry) continue;
+
+    emailTemplates[key] = {
+      subject: String(entry.subject ?? "").trim().slice(0, 200),
+      body: String(entry.body ?? "").trim().slice(0, 4000),
+    };
+  }
+
   const patch = {
     cityName: requiredText(next.cityName, { field: "City name", min: 2, max: 60 }),
     department: requiredText(next.department, { field: "Department", min: 2, max: 80 }),
@@ -34,6 +47,11 @@ export const save = async (actor, payload = {}, context = {}) => {
     autoAssignWard: boolean(next.autoAssignWard, "Auto-assign ward"),
     allowRegistration: boolean(next.allowRegistration, "Allow registration"),
     notifyOnNewComplaint: boolean(next.notifyOnNewComplaint, "Notify on new complaint"),
+    emailNotifications: boolean(
+      next.emailNotifications === undefined ? true : next.emailNotifications,
+      "Email notifications"
+    ),
+    emailTemplates,
   };
 
   const updated = await settings.save(patch);

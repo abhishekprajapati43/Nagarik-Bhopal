@@ -34,3 +34,10 @@ export const assign = asyncHandler(async (req, res) =>
     await complaints.assign(req.user, req.params.id, req.body, getRequestContext(req))
   )
 );
+
+export const verify = asyncHandler(async (req, res) =>
+  sendOk(
+    res,
+    await complaints.verify(req.params.id, req.user, req.body, getRequestContext(req))
+  )
+);

@@ -1,9 +1,14 @@
 import { AppError, ERROR_CODES } from "../../shared/errors.js";
 import {
+  GARBAGE_CATEGORY_ID,
   PRIORITY_LIST,
   STATUS_LIST,
   USER_STATUS,
+  VERIFICATION_STATUS_LIST,
   WASTE_TYPES,
+  findCategoryForIssue,
+  findComplaintCategory,
+  findComplaintIssue,
 } from "../../shared/constants.js";
 import { oneOf } from "../../shared/validation.js";
 import { pagination } from "../utils/pagination.js";
@@ -32,14 +37,48 @@ const dateParam = (value, field, endOfDay = false) => {
   return date.toISOString();
 };
 
+const categoryFilter = (value) => {
+  if (!value) return "";
+  const category = findComplaintCategory(value);
+  if (!category) {
+    throw new AppError(ERROR_CODES.VALIDATION, "Choose a valid complaint category.");
+  }
+  return category.id;
+};
+
+const issueFilter = (value, categoryId) => {
+  if (!value) return "";
+  const raw = text(value, "Complaint type", 80);
+  const category = categoryId
+    ? findComplaintCategory(categoryId)
+    : findCategoryForIssue(raw);
+
+  if (!category) {
+    throw new AppError(ERROR_CODES.VALIDATION, "Choose a valid complaint type.");
+  }
+
+  // Legacy garbage sub-types are still valid filter values.
+  if (category.id === GARBAGE_CATEGORY_ID && WASTE_TYPES.includes(raw)) return raw;
+
+  const issue = findComplaintIssue(category.id, raw);
+  if (!issue) {
+    throw new AppError(ERROR_CODES.VALIDATION, "Choose a valid complaint type.");
+  }
+
+  return issue;
+};
+
 export const complaintListQuery = (query = {}) => {
   const { page, limit } = pagination(query, 12);
+  const complaintCategory = categoryFilter(query.complaintCategory);
 
   return {
     page,
     limit,
     scope: query.scope === "mine" ? "mine" : "all",
     status: query.status ? oneOf(String(query.status), STATUS_LIST, "status") : "",
+    complaintCategory,
+    complaintType: issueFilter(query.complaintType, complaintCategory),
     wasteType: query.wasteType
       ? oneOf(String(query.wasteType), WASTE_TYPES, "waste type")
       : "",
@@ -51,8 +90,27 @@ export const complaintListQuery = (query = {}) => {
       : "newest",
     search: text(query.search, "Search"),
     wardId: text(query.wardId, "Ward", 80),
+    zoneNumber: (() => {
+      if (query.zoneNumber === undefined || query.zoneNumber === null || query.zoneNumber === "") {
+        return "";
+      }
+      const value = Number(query.zoneNumber);
+      if (!Number.isInteger(value) || value < 1 || value > 30) {
+        throw new AppError(
+          ERROR_CODES.VALIDATION,
+          "Zone number must be a whole number between 1 and 30."
+        );
+      }
+      return value;
+    })(),
+    assemblyConstituency: text(query.assemblyConstituency, "Assembly constituency", 80),
     userId: text(query.userId, "User", 80),
     representativeId: text(query.representativeId, "Representative", 80),
+    assignedOfficerId: text(query.assignedOfficerId, "Officer", 80),
+    unassignedOfficer: query.unassignedOfficer === true || query.unassignedOfficer === "true",
+    verificationStatus: query.verificationStatus
+      ? oneOf(String(query.verificationStatus), VERIFICATION_STATUS_LIST, "verification status")
+      : "",
     from: dateParam(query.from, "From date"),
     to: dateParam(query.to, "To date", true),
   };

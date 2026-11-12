@@ -5,7 +5,7 @@ import PasswordInput from "../components/PasswordInput";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  const { login, user, isAdmin } = useAuth();
+  const { login, user, isAdmin, isOfficer } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [message, setMessage] = useState(location.state?.message || "");
@@ -17,7 +17,7 @@ export default function Login() {
 
   // An existing session should not see a sign-in form again.
   if (user) {
-    return <Navigate to={isAdmin ? "/admin" : redirectTo} replace />;
+    return <Navigate to={isAdmin ? "/admin" : isOfficer ? "/officer/dashboard" : redirectTo} replace />;
   }
 
   async function submit(event) {
@@ -104,6 +104,8 @@ export default function Login() {
 
           <p className="auth-switch auth-switch-muted">
             City staff? <Link to="/admin/login">Administrator sign-in</Link>
+            {" · "}
+            <Link to="/officer/login">Sanitation officer sign-in</Link>
           </p>
           <p className="local-note">
             Demo resident · citizen@nagarik.bhopal / Citizen@123 · mobile 98111 22334

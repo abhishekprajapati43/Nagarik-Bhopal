@@ -5,6 +5,8 @@ import { logger } from "../utils/logger.js";
 import authRoutes from "./auth.routes.js";
 import userRoutes from "./user.routes.js";
 import complaintRoutes from "./complaint.routes.js";
+import officerRoutes from "./officer.routes.js";
+import officerDirectoryRoutes from "./officerDirectory.routes.js";
 import wardRoutes from "./ward.routes.js";
 import representativeRoutes from "./representative.routes.js";
 import notificationRoutes from "./notification.routes.js";
@@ -54,6 +56,8 @@ router.get(
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/complaints", complaintRoutes);
+router.use("/officer", officerRoutes);
+router.use("/officers", officerDirectoryRoutes);
 router.use("/wards", wardRoutes);
 router.use("/representatives", representativeRoutes);
 router.use("/notifications", notificationRoutes);

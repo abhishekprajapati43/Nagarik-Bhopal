@@ -27,14 +27,16 @@ export const findRowById = async (id, db = null) => {
 export const create = async (person, db = null) => {
   const exec = db ? (sql, params) => db.query(sql, params) : query;
   const { rows } = await exec(
-    `INSERT INTO representatives (name, designation, phone, email, ward_id)
-     VALUES ($1, $2, $3, $4, $5)
+    `INSERT INTO representatives (name, designation, phone, email, mla_name, office_address, ward_id)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING *`,
     [
       person.name,
       person.designation || "Ward Corporator",
       person.phone || "",
       person.email || "",
+      person.mlaName || "",
+      person.officeAddress || "",
       person.wardId || null,
     ]
   );
@@ -45,7 +47,8 @@ export const update = async (id, person, db = null) => {
   const exec = db ? (sql, params) => db.query(sql, params) : query;
   const { rows } = await exec(
     `UPDATE representatives
-     SET name = $2, designation = $3, phone = $4, email = $5, ward_id = $6
+     SET name = $2, designation = $3, phone = $4, email = $5, mla_name = $6,
+         office_address = $7, ward_id = $8
      WHERE id = $1
      RETURNING *`,
     [
@@ -54,6 +57,8 @@ export const update = async (id, person, db = null) => {
       person.designation || "Ward Corporator",
       person.phone || "",
       person.email || "",
+      person.mlaName || "",
+      person.officeAddress || "",
       person.wardId || null,
     ]
   );

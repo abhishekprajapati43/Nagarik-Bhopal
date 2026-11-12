@@ -8,6 +8,11 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 const MIGRATIONS = [
   { version: "001_initial_schema", file: "schema.sql" },
+  { version: "002_complaint_categories", file: "002_complaint_categories.sql" },
+  { version: "003_officer_workflow", file: "003_officer_workflow.sql" },
+  { version: "004_advanced_features", file: "004_advanced_features.sql" },
+  { version: "005_aadhaar_verification", file: "005_aadhaar_verification.sql" },
+  { version: "006_ward_master_data", file: "006_ward_master_data.sql" },
 ];
 
 const LOCK_KEY = "nagarik_bhopal_migrations";

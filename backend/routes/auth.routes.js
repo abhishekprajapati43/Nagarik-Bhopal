@@ -8,11 +8,13 @@ const router = Router();
 router.post("/register", authLimiter, controller.register);
 router.post("/login", authLimiter, controller.login);
 router.post("/admin/login", authLimiter, controller.adminLogin);
+router.post("/officer/login", authLimiter, controller.officerLogin);
 router.post("/forgot-password", authLimiter, controller.forgotPassword);
 router.post("/reset-password", authLimiter, controller.resetPassword);
 
 router.get("/me", authenticate, controller.me);
 router.patch("/me", authenticate, controller.updateProfile);
+router.post("/aadhaar", authenticate, controller.submitAadhaar);
 router.post("/change-password", authenticate, controller.changePassword);
 
 export default router;

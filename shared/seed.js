@@ -1,4 +1,12 @@
-import { DEMO_ADMIN, DEFAULT_SETTINGS, ROLES, STATUS, WARDS } from "./constants.js";
+import {
+  DEMO_ADMIN,
+  DEMO_OFFICER,
+  DEFAULT_SETTINGS,
+  GARBAGE_CATEGORY_ID,
+  ROLES,
+  STATUS,
+  WARDS,
+} from "./constants.js";
 
 /**
  * First-run data. Seeds wards, representatives, a demo citizen, the admin
@@ -8,11 +16,11 @@ import { DEMO_ADMIN, DEFAULT_SETTINGS, ROLES, STATUS, WARDS } from "./constants.
 const DAY = 86_400_000;
 
 const representatives = [
-  { id: "rep-1", name: "Mr. Rajesh Sharma", designation: "Ward Corporator", phone: "+91 98765 43210", email: "rajesh.sharma@nagarik.bhopal", wardId: "ward-35" },
-  { id: "rep-2", name: "Ms. Sunita Verma", designation: "Ward Corporator", phone: "+91 98260 11223", email: "sunita.verma@nagarik.bhopal", wardId: "ward-12" },
-  { id: "rep-3", name: "Mr. Imran Khan", designation: "Ward Corporator", phone: "+91 90000 88221", email: "imran.khan@nagarik.bhopal", wardId: "ward-40" },
-  { id: "rep-4", name: "Ms. Kavita Yadav", designation: "Sanitation Officer", phone: "+91 91111 44556", email: "kavita.yadav@nagarik.bhopal", wardId: "ward-25" },
-  { id: "rep-5", name: "Mr. Deepak Sahu", designation: "Zone Supervisor", phone: "+91 93333 77889", email: "deepak.sahu@nagarik.bhopal", wardId: "ward-44" },
+  { id: "rep-1", name: "Mr. Rajesh Sharma", designation: "Ward Corporator", phone: "+91 98765 43210", email: "rajesh.sharma@nagarik.bhopal", wardId: "ward-35", mlaName: "Shri Rameshwar Sharma", officeAddress: "Ward Office, Zone-1, MP Nagar, Bhopal" },
+  { id: "rep-2", name: "Ms. Sunita Verma", designation: "Ward Corporator", phone: "+91 98260 11223", email: "sunita.verma@nagarik.bhopal", wardId: "ward-12", mlaName: "Smt. Aruna Verma", officeAddress: "Ward Office, Ashoka Garden, Bhopal" },
+  { id: "rep-3", name: "Mr. Imran Khan", designation: "Ward Corporator", phone: "+91 90000 88221", email: "imran.khan@nagarik.bhopal", wardId: "ward-40", mlaName: "Shri Salman Khan", officeAddress: "Ward Office, New Market, Bhopal" },
+  { id: "rep-4", name: "Ms. Kavita Yadav", designation: "Sanitation Officer", phone: "+91 91111 44556", email: "kavita.yadav@nagarik.bhopal", wardId: "ward-25", mlaName: "Shri Mahesh Yadav", officeAddress: "Ward Office, Kolar Road, Bhopal" },
+  { id: "rep-5", name: "Mr. Deepak Sahu", designation: "Zone Supervisor", phone: "+91 93333 77889", email: "deepak.sahu@nagarik.bhopal", wardId: "ward-44", mlaName: "Shri Govind Sahu", officeAddress: "Zone Office, Govindpura, Bhopal" },
 ];
 
 const complaintSeeds = [
@@ -42,6 +50,8 @@ const complaintSeeds = [
     daysAgo: 9,
     resolvedAfterDays: 2,
     upvotes: 3,
+    assignedOfficerId: "officer-1",
+    verificationStatus: "pending",
   },
   {
     id: "3",
@@ -55,6 +65,7 @@ const complaintSeeds = [
     priority: "High",
     daysAgo: 7,
     upvotes: 11,
+    assignedOfficerId: "officer-1",
   },
   {
     id: "4",
@@ -112,8 +123,40 @@ export async function buildSeed({ hashPassword, now = Date.now() }) {
     role: ROLES.USER,
     status: "active",
     passwordHash: await hashPassword("Citizen@123"),
+    // Grandfathered demo identity. No real Aadhaar number is stored.
+    aadhaarLast4: "1234",
+    aadhaarVerified: true,
+    aadhaarVerifiedAt: iso(39),
+    aadhaarSubmittedAt: iso(40),
+    verificationStatus: "Verified",
+    verificationRemarks: "Demo resident verified before the Aadhaar rollout.",
     createdAt: iso(40),
   };
+
+  const officerUser = {
+    id: "u-officer",
+    name: DEMO_OFFICER.name,
+    email: DEMO_OFFICER.email,
+    phone: DEMO_OFFICER.phone,
+    wardId: "ward-25",
+    role: ROLES.OFFICER,
+    status: "active",
+    passwordHash: await hashPassword(DEMO_OFFICER.password),
+    createdAt: iso(60),
+  };
+
+  const officerRecords = [
+    {
+      id: "officer-1",
+      userId: officerUser.id,
+      employeeCode: DEMO_OFFICER.employeeCode,
+      designation: "Sanitation Officer",
+      zone: DEMO_OFFICER.zone,
+      phone: DEMO_OFFICER.phone,
+      isActive: true,
+      createdAt: iso(60),
+    },
+  ];
 
   const complaints = complaintSeeds.map((seed) => {
     const ward = wardById(seed.wardId);
@@ -124,14 +167,23 @@ export async function buildSeed({ hashPassword, now = Date.now() }) {
       { status: STATUS.PENDING, at: createdAt, by: citizen.name, note: "Complaint submitted." },
     ];
 
+    if (seed.assignedOfficerId && seed.status !== STATUS.PENDING) {
+      timeline.push({
+        status: STATUS.ASSIGNED,
+        at: iso(seed.daysAgo - 0.5),
+        by: admin.name,
+        note: `Assigned to ${officerUser.name}.`,
+      });
+    }
+
     if (seed.status !== STATUS.PENDING) {
       timeline.push({
         status: seed.status,
         at: iso(seed.daysAgo - (seed.resolvedAfterDays ?? 1)),
-        by: admin.name,
+        by: seed.assignedOfficerId ? officerUser.name : admin.name,
         note:
           seed.status === STATUS.RESOLVED
-            ? "Site cleaned by the sanitation team."
+            ? "Site cleaned by the sanitation team. Awaiting citizen verification."
             : seed.status === STATUS.REJECTED
               ? "Duplicate of an existing report; closed."
               : "Team assigned and work started.",
@@ -144,15 +196,22 @@ export async function buildSeed({ hashPassword, now = Date.now() }) {
       userName: citizen.name,
       userEmail: citizen.email,
       wasteType: seed.wasteType,
+      complaintCategory: GARBAGE_CATEGORY_ID,
+      complaintType: seed.wasteType,
       description: seed.description,
       address: seed.address,
       wardId: seed.wardId,
       ward: ward?.name ?? "Unassigned",
       representativeId: representative?.id ?? "",
       representative: representative?.name ?? "Not assigned",
+      assignedOfficerId: seed.assignedOfficerId ?? "",
       status: seed.status,
       priority: seed.priority,
       image: seed.image,
+      beforePhoto: "",
+      afterPhoto: "",
+      workNotes: seed.assignedOfficerId ? "Sanitation team visited the site." : "",
+      verificationStatus: seed.verificationStatus ?? "not_requested",
       position: seed.position,
       // Keep the community support figures the seed file documents.
       upvotedBy: Array.from(
@@ -167,16 +226,34 @@ export async function buildSeed({ hashPassword, now = Date.now() }) {
             ]
           : [],
       timeline,
+      statusHistory: timeline.map((entry, index) => ({
+        from: index === 0 ? "" : timeline[index - 1].status,
+        to: entry.status,
+        note: entry.note,
+        by: entry.by,
+        role:
+          entry.by === admin.name
+            ? ROLES.ADMIN
+            : entry.by === officerUser.name
+              ? ROLES.OFFICER
+              : ROLES.USER,
+        at: entry.at,
+      })),
       createdAt,
       updatedAt: timeline[timeline.length - 1].at,
     };
   });
 
   return {
-    users: [admin, citizen],
+    users: [admin, citizen, officerUser],
+    officers: officerRecords,
     wards: WARDS.map((ward) => {
       const representative = representativeForWard(ward.id);
-      return { ...ward, representativeId: representative?.id ?? "" };
+      return {
+        ...ward,
+        representativeId: representative?.id ?? "",
+        assignedOfficerId: ward.assignedOfficerId ?? "",
+      };
     }),
     representatives,
     complaints,

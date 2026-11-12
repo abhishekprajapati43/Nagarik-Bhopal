@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 import { useService } from "../hooks/useService";
 import { messageFor } from "../shared/errors";
 import { call } from "../utils/api";
@@ -16,6 +17,7 @@ const ICONS = {
 };
 
 export default function Notifications() {
+  const { t } = useLanguage();
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -36,23 +38,24 @@ export default function Notifications() {
   };
 
   const items = data?.items || [];
+  const unread = data?.unread || 0;
 
   return (
     <div className="container">
       <div className="page-head">
         <div>
-          <h1>Notifications</h1>
+          <h1>{t("notif.title")}</h1>
           <p className="page-intro">
             {loading
-              ? "Loading updates…"
+              ? t("notif.loading")
               : items.length === 0
-                ? "Updates about your reports will appear here."
-                : `${data?.unread || 0} unread of ${items.length} update(s).`}
+                ? t("notif.emptyHint")
+                : t("notif.count", { unread, total: items.length })}
           </p>
         </div>
         {items.length > 0 && (
           <button type="button" className="button-ghost" disabled={busy} onClick={() => markRead()}>
-            Mark all as read
+            {t("notif.markAll")}
           </button>
         )}
       </div>
@@ -61,7 +64,7 @@ export default function Notifications() {
       {message && <p className="form-message" role="status">{message}</p>}
 
       {!loading && items.length === 0 && (
-        <p className="empty-state">Nothing here yet. Report an issue to start getting updates.</p>
+        <p className="empty-state">{t("notif.empty")}</p>
       )}
 
       <ul className="notification-list">
@@ -78,10 +81,10 @@ export default function Notifications() {
             </div>
 
             <div className="notification-actions">
-              {item.complaintId && <Link to={`/complaint/${item.complaintId}`}>View</Link>}
+              {item.complaintId && <Link to={`/complaint/${item.complaintId}`}>{t("common.view")}</Link>}
               {!item.read && (
                 <button type="button" className="link-button" disabled={busy} onClick={() => markRead(item.id)}>
-                  Mark read
+                  {t("notif.markRead")}
                 </button>
               )}
             </div>

@@ -13,6 +13,7 @@ const ADMIN_ONLY = new Set([
   "analytics",
   "listUsers",
   "setUserStatus",
+  "listOfficers",
   "saveWard",
   "deleteWard",
   "saveRepresentative",
@@ -20,15 +21,34 @@ const ADMIN_ONLY = new Set([
   "broadcastNotification",
   "saveSettings",
   "updateComplaintStatus",
+  "updateComplaintWork",
   "assignComplaint",
+  "listEmailOutbox",
+  "listCitizenVerifications",
+  "reviewCitizenVerification",
+  "listVerificationAudit",
+]);
+
+const OFFICER_ONLY = new Set([
+  "officerProfile",
+  "officerDashboard",
+  "listOfficerComplaints",
+  "getOfficerComplaint",
+  "updateOfficerStatus",
+  "resolveOfficerComplaint",
+  "updateOfficerWork",
 ]);
 
 const SESSION_ONLY = new Set([
   "updateProfile",
+  "submitAadhaar",
   "changePassword",
   "createComplaint",
   "upvoteComplaint",
   "addComment",
+  "verifyComplaint",
+  "acceptComplaint",
+  "checkDuplicates",
   "myStats",
   "listNotifications",
   "markNotificationsRead",
@@ -39,7 +59,8 @@ export async function dispatch(service, method, args = {}, token = null) {
     throw new AppError(ERROR_CODES.VALIDATION, `Unknown action: ${method}`);
   }
 
-  const needsActor = ADMIN_ONLY.has(method) || SESSION_ONLY.has(method);
+  const needsActor =
+    ADMIN_ONLY.has(method) || OFFICER_ONLY.has(method) || SESSION_ONLY.has(method);
 
   let actor = null;
   if (token) {
@@ -58,6 +79,10 @@ export async function dispatch(service, method, args = {}, token = null) {
 
   if (ADMIN_ONLY.has(method) && actor.role !== ROLES.ADMIN) {
     throw new AppError(ERROR_CODES.FORBIDDEN, "Only city administrators can perform this action.");
+  }
+
+  if (OFFICER_ONLY.has(method) && actor.role !== ROLES.OFFICER) {
+    throw new AppError(ERROR_CODES.FORBIDDEN, "Sanitation officer access is required.");
   }
 
   // `me` receives its token explicitly; every other method receives the actor.

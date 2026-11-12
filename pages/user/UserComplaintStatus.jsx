@@ -4,6 +4,7 @@ import StatusBadge from "../../components/StatusBadge";
 import { useService } from "../../hooks/useService";
 import { STATUS_LIST } from "../../shared/constants";
 import { call } from "../../utils/api";
+import { complaintCategoryName, complaintTypeLabel } from "../../utils/complaint";
 import { formatDate } from "../../utils/format";
 
 const matches = (complaint, term) => {
@@ -13,7 +14,8 @@ const matches = (complaint, term) => {
   return [
     complaint.id,
     String(complaint.id).slice(-6),
-    complaint.wasteType,
+    complaintTypeLabel(complaint),
+    complaintCategoryName(complaint),
     complaint.ward,
     complaint.address,
   ]
@@ -47,7 +49,7 @@ export default function UserComplaintStatus() {
           <p className="eyebrow eyebrow-dark">TRACK EVERY STEP</p>
           <h2>Complaint Status</h2>
           <p className="admin-note">
-            Search by complaint ID, ward or address, or filter the reports by their current stage.
+            Search by issue, category, complaint ID or address, or filter the reports by their current stage.
           </p>
         </div>
         <Link className="button button-dark" to="/report">
@@ -68,7 +70,7 @@ export default function UserComplaintStatus() {
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search by complaint ID, ward or address"
+            placeholder="Search by issue, category, ward or address"
             aria-label="Search your complaints"
           />
         </div>
@@ -105,7 +107,7 @@ export default function UserComplaintStatus() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Waste</th>
+                  <th>Issue</th>
                   <th>Ward</th>
                   <th>Status</th>
                   <th>Days</th>
@@ -117,7 +119,7 @@ export default function UserComplaintStatus() {
                 {items.map((complaint) => (
                   <tr key={complaint.id}>
                     <td>#{complaint.id.slice(-6)}</td>
-                    <td>{complaint.wasteType}</td>
+                    <td>{complaintTypeLabel(complaint)}</td>
                     <td>{complaint.ward}</td>
                     <td><StatusBadge status={complaint.status} /></td>
                     <td>{complaint.days}</td>
